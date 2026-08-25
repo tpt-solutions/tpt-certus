@@ -1,0 +1,269 @@
+# tpt-certus: Formally Verified 3D Spatial Foundation
+
+**Status:** Draft v3 / Phase 1 Initiation
+**Author:** TPT Solutions
+**Date:** August 20, 2026
+**License:** MIT OR Apache-2.0
+
+---
+
+## 1. Executive Summary
+
+`tpt-certus` is a pure-Rust, domain-agnostic, formally verified 3D spatial library suite. Unlike traditional rendering engines that prioritize visual fidelity or game-like features, `tpt-certus` prioritizes **mathematical certainty, deterministic behavior, and auditability**.
+
+By leveraging the `tpt-telos` agentic compiler and its self-contained Fourier-Motzkin SMT-style solver, `tpt-certus` proves spatial relationships, collision detection, and state transitions correct against a two-layer specification: an **ideal real-arithmetic model** (QF_LRA) and a **sound floating-point realization** of that model with explicit, machine-checked error bounds. This is a stronger claim than "proven over the reals" alone — it means every guarantee is backed by a proof that also accounts for the arithmetic the CPU actually performs, closing the gap that undermines most formal-methods marketing in this space.
+
+The result: to our knowledge, `tpt-certus` is among a very small set of 3D spatial libraries where every geometric guarantee comes with a machine-checked certificate stating exactly what was proven, over which number system, and within what bound — suitable as genuine evidence in DO-178C, FDA, and financial-model-risk review processes, not just an internal QA artifact. This positioning should be re-confirmed with a competitive survey before it appears in customer-facing material (see Section 7).
+
+---
+
+## 2. Target Industries & The Gap We Fill
+
+`tpt-certus` is designed for safety-critical and high-stakes B2B environments where a spatial or rendering artifact is catastrophic.
+
+| Industry | Use Case | The Gap | The `tpt-certus` Guarantee |
+| :--- | :--- | :--- | :--- |
+| **Medical Imaging & Surgical Planning** | Rendering 3D MRI/CT scans for tumor resection planning. | Floating-point clipping or bounding-volume errors could cause a surgeon to misjudge the distance between a tumor and a critical nerve. | **Verified Voxel & Mesh Bounds:** Proves 3D bounding volumes strictly enclose all constituent vertices in exact arithmetic, *and* proves the compiled f64 implementation's containment error is bounded below a stated epsilon (e.g., sub-micron at clinical scale) — the number a regulator can actually check against device tolerances. |
+| **Autonomous Vehicle & Robotics Simulation** | Simulating millions of miles to train self-driving AI and swarm robotics. | Subtle rendering/physics bugs (e.g., shadow artifacts) cause the AI to learn wrong behaviors, creating a dangerous "Sim-to-Real" gap. | **Deterministic Spatial State Replay:** Cryptographically hashes spatial state per timestep, proving the 3D environment is an exact, bit-reproducible function of the physics state across runs and hardware. |
+| **Aerospace & Avionics Digital Twins** | Real-time 3D telemetry visualization for spacecraft or flight HUDs. | Legacy C++ tools are used because they can be audited for DO-178C/ECSS certification. Modern engines are too opaque and unverified. | **Certifiable Telemetry Visualization:** Formally verifies projection math (World → View → Clip) via QF_LRA constraints with explicit float error bounds, generating audit logs and Proof Certificates structured for DO-330 tool-qualification submission (see Section 7). |
+| **Financial / High-Stakes Spatial Data** | Visualizing complex derivatives, risk models, or smart contract states in 3D space. | Rendering artifacts, occlusion, or perspective distortion can visually mislead analysts into making billion-dollar decisions. | **Lossless Data Projection:** Proves the mapping from N-dimensional data to 3D spatial coordinates is bijective and bounded, with a certified maximum distortion bound rather than an assumption of zero distortion. This is verification evidence usable in a model-risk-management review; it is not itself an SR 11-7-style model validation — see Section 7 for the staged path toward that. |
+
+---
+
+## 3. Architectural Principles
+
+1. **Verification First, Rendering Second:** The mathematical truth of the spatial state is the primary output. Rendering is a deterministic, headless visualization of that proven state.
+2. **Two-Layer Soundness:** Every contract is proven twice — once over the ideal reals (QF_LRA), once as a bounded-error statement about the actual f64 execution. A guarantee that only holds in the first layer is not shipped as a guarantee; it is shipped as a documented assumption until the second layer closes it.
+3. **Compositional Verification:** Proof obligations over large structures (BVH, octree) are decomposed into per-node-type and per-level invariants that compose into the whole-structure guarantee. This is what keeps the self-contained FM solver tractable at scale instead of requiring external SMT solvers — see Section 5.2, including an explicit note on what "per-node" means and when proof work happens.
+4. **Domain Agnostic:** `tpt-certus` contains no aviation-specific, medical-specific, or financial-specific code. It provides pure, generic spatial primitives, proven generically; domain logic lives in the consuming applications.
+5. **Leverage the Ecosystem:** Consume existing, battle-tested TPT crates (`tpt-math`, `tpt-engineering`, `tpt-formal`) and elevate them with `tpt-telos` contracts rather than reimplementing them.
+6. **No `unsafe` Rust — scoped to `tpt-certus`'s own crates:** Every crate in Section 4 is written without `unsafe`, and memory safety within them is guaranteed by the Rust compiler — a distinct, separately-earned guarantee from the spatial/arithmetic correctness guaranteed by `tpt-telos`. This claim does **not** extend to transitive dependencies (`tpt-math`, `tpt-engineering`, `wgpu`, etc.), which are not audited as part of this guarantee and may contain `unsafe` internally. The two are never conflated in documentation or certificates; where a dependency's own safety posture matters to a customer, it should be assessed separately.
+
+---
+
+## 4. System Architecture (Crate Map)
+
+| Crate | Purpose | Existing TPT Dependencies | The `tpt-telos` Upgrade |
+| :--- | :--- | :--- | :--- |
+| `tpt-certus-math` | Core linear algebra, bounded floats, verified vector/matrix operations. | `tpt-math` (`tpt-math-geometry`, `tpt-math-linalg`) | Proves normalization, orthogonality, and bounded QF_LRA constraints on transformations, each with a paired float error-bound lemma. |
+| `tpt-certus-geometry` | 3D primitives: AABB, OBB, Rays, Planes, Voxel grids, basic mesh structures. | `tpt-engineering` (`tpt-eng-geometry`, `tpt-eng-mesh`) | Proves geometric invariants (e.g., `AABB.min <= AABB.max`, ray direction normalized) over reals and floats. |
+| `tpt-certus-spatial` | **Core Engine.** Spatial partitioning (BVH/Octree), broad/narrow-phase collision, raycasting. | *(New)* | Proves zero false-negative collisions and correct spatial hierarchy traversal via compositional per-node-type proofs (Section 5.2). |
+| `tpt-certus-state` | Deterministic state management, cryptographic hashing, temporal replay/auditing. | `tpt-formal` (`tpt-for-model-check`, `tpt-for-vcgen`) | Proves lossless state serialization and deterministic temporal progression, bit-exact across platforms. |
+| `tpt-certus-render` | Minimal, headless WebGPU (`wgpu`) visualizer for deterministic state rendering. | *(New)* | Proves the rendering pipeline is a pure function of the verified spatial state. |
+| `tpt-certus-proof` | **New.** Proof-certificate assembly, error-bound bookkeeping, and DO-330-formatted audit-log export. | `tpt-formal` | Aggregates per-crate proof obligations into a single certificate per build; the artifact regulators and auditors actually consume. |
+
+---
+
+## 5. The Verification Strategy
+
+### 5.1 Two-Layer Soundness (closing the real-vs-float gap)
+
+Every verified function in `tpt-certus` carries **two linked contracts**:
+
+1. **Ideal contract**, proven over QF_LRA / exact rationals — this is what Fourier-Motzkin elimination actually decides.
+2. **Realization contract**, proven over the compiled f64 semantics, stated as: *for all inputs in the declared domain, the f64 result differs from the ideal-contract result by no more than `ε`*, where `ε` is derived from IEEE-754 rounding analysis (interval arithmetic over the operation sequence in the function body), not asserted by hand.
+
+`tpt-telos` is extended to auto-derive the realization contract's `ε` from the ideal contract plus the function's operation graph, so authors write one specification and get both proofs. **This auto-derivation is itself trusted tooling, not something separately re-proven per function call** — its soundness rests on `tpt-telos`'s interval-arithmetic implementation being correct, which is exactly the property Phase 2 of Section 7 puts through independent DO-330 tool-qualification analysis. Until that phase completes, treat the ε-derivation mechanism as a documented trust assumption, not an independently-verified guarantee in its own right; the per-function ideal and realization contracts it produces are still individually checked by the FM solver.
+
+Where a function's structure makes an epsilon-fuzzy zone unavoidable (e.g., near-tangent ray-plane intersection), the fuzzy zone itself becomes an explicit, proven region in the contract rather than an undocumented gap — see Section 6, Postcondition 3.
+
+This is the mechanism that lets Section 2's guarantees be stated in terms an auditor can check numerically (e.g., "containment error < 1e-6 units") instead of the unqualified "100% exact."
+
+### 5.2 Compositional Verification (keeping the solver tractable at scale)
+
+Fourier-Motzkin elimination is doubly-exponential in the worst case as variable/constraint count grows, which would make naive whole-structure proofs (e.g., "this entire octree has zero false-negative collisions") intractable at realistic scale. `tpt-certus` avoids this by construction — and, critically, **entirely at build time, with no runtime proof cost**:
+
+- Verification targets the **construction and mutation functions** (`insert`, `rebalance`, `split_node`, etc.), not individual runtime tree instances. Each function carries a local invariant (e.g., "if the input node satisfies its AABB-containment invariant, the node(s) produced by `insert` also satisfy it") proven once, at build time, universally quantified over all possible inputs — the same way `ray_intersects_aabb` in Section 6 is proven once for all rays and boxes, not re-proven per call.
+- A **composition lemma**, proven once, states that if every construction/mutation function preserves the local invariant, then any tree built by any sequence of calls to those functions satisfies the whole-structure property, by induction over tree depth.
+- Whole-structure verification is therefore a small, fixed number of FM proofs over the construction/mutation functions themselves, plus one fixed composition proof — **not** one proof per node of a live tree, and not something that runs again when the AV simulation in Section 2 builds or mutates trees at runtime. Runtime cost is the ordinary cost of running already-verified code; no solver invocation happens at runtime.
+
+Before this is load-bearing for the Phase 2 roadmap, we will benchmark FM elimination time (at build time) against the construction/mutation functions exercised by a representative BVH shape, targeting near-linear proof-time scaling through depth 12–16, the range needed for the AV-simulation and aerospace use cases. This benchmark is a Phase 1 exit criterion, not a Phase 2 assumption — see Section 8.
+
+### 5.3 Audit Artifacts
+
+The build process generates a **Proof Certificate** per build, produced by `tpt-certus-proof`, containing:
+- The ideal contract and realization contract (with derived `ε`) for every verified function reachable from the build.
+- The composition lemmas used, for any structure verified compositionally.
+- A machine-readable manifest cross-referencing certificate entries to source locations and to the specific regulatory objective they support (e.g., DO-178C Table A-5, FDA design-control verification records).
+
+If any proof obligation fails, the build fails: `tpt-certus-proof` treats an unproven contract as a hard CI gate, not a warning, and no Proof Certificate is emitted for that build. There is no partial-certificate or "best effort" mode — a certificate's existence is itself evidence that every obligation it lists was discharged.
+
+This manifest format is designed in direct consultation with DO-330 tool-qualification requirements (see Section 7) rather than as a generic "proof dump" retrofitted to regulatory use.
+
+---
+
+## 6. Phase 1 Proof of Concept: Verified Ray-AABB Intersection
+
+**Phase 1 Goal:** Implement and formally verify `ray_intersects_aabb` in `tpt-certus-spatial`, fully closing the real/float gap and the boundary-case gaps identified in review, as the template all later crates follow.
+
+```rust
+// tpt-certus-spatial/src/ray_aabb.rs
+
+use tpt_math_geometry::{Vector3, AABB};
+
+/// Represents the result of a ray-AABB intersection.
+pub struct Intersection {
+    pub t_near: f64, // Distance to entry point
+    pub t_far: f64,  // Distance to exit point
+}
+
+/// Formally verified Ray-AABB intersection using the robust Slab Method.
+///
+/// # Scope note
+/// All contracts below assume finite, non-NaN inputs (`ray_origin`, `ray_dir`,
+/// `aabb`, `t_max`). Malformed (NaN-containing) inputs are out of scope for this
+/// contract and are rejected upstream by `tpt-certus-geometry`'s construction
+/// invariants, not re-checked here.
+///
+/// # tpt-telos Contracts — Ideal Layer (QF_LRA, exact rationals)
+/// requires:
+///   aabb.min.x <= aabb.max.x && aabb.min.y <= aabb.max.y && aabb.min.z <= aabb.max.z
+/// requires:
+///   t_max > 0.0 // Explicit domain bound: the ray is only claimed correct up to t_max
+/// requires:
+///   ray.dir.x != 0.0 || ray.dir.y != 0.0 || ray.dir.z != 0.0 // non-zero direction
+/// ensures: // Valid intersection bounds
+///   if result.is_some() {
+///     let i = result.unwrap();
+///     i.t_near >= 0.0 && i.t_near <= i.t_far && i.t_near <= t_max
+///     // Note: i.t_far is intentionally left unclipped by t_max. An entry point
+///     // within the view distance constitutes a valid hit, even if the exit
+///     // point lies beyond the bounded domain.
+///   }
+/// ensures: // Origin strictly inside AABB => guaranteed hit at t_near == 0.0
+///   (ray.origin.x >= aabb.min.x && ray.origin.x <= aabb.max.x &&
+///    ray.origin.y >= aabb.min.y && ray.origin.y <= aabb.max.y &&
+///    ray.origin.z >= aabb.min.z && ray.origin.z <= aabb.max.z)
+///   ==> (result.is_some() && result.unwrap().t_near == 0.0)
+/// ensures: // Origin exactly ON a boundary face is treated as inside
+///   (ray.origin.x == aabb.min.x || ray.origin.x == aabb.max.x) &&
+///   (ray.origin.y >= aabb.min.y && ray.origin.y <= aabb.max.y) &&
+///   (ray.origin.z >= aabb.min.z && ray.origin.z <= aabb.max.z)
+///   ==> (result.is_some() && result.unwrap().t_near == 0.0)
+///
+/// # tpt-telos Contracts — Realization Layer (f64, auto-derived ε)
+/// ensures: // Bounded numerical error vs. the ideal-layer mathematical result
+///   let ideal = symbolic_evaluate_ideal(ray_origin, ray_dir, aabb, t_max);
+///   ideal.is_some() == result.is_some() &&
+///   (ideal.is_some() ==>
+///     |result.unwrap().t_near - ideal.unwrap().t_near| <= EPSILON_T
+///     && |result.unwrap().t_far - ideal.unwrap().t_far| <= EPSILON_T)
+///   // EPSILON_T derived by tpt-telos from the slab arithmetic's condition
+///   // number; published per-build in the Proof Certificate, not hand-asserted.
+/// ensures: // No false negatives within the bounded domain (t <= t_max)
+///   let ideal = symbolic_evaluate_ideal(ray_origin, ray_dir, aabb, t_max); // re-bound: independent clause scope
+///   ideal.is_some() ==> result.is_some()
+///   // Achieved by removing the magnitude-based "near-tangent" shortcut entirely.
+///   // f64 division of a nonzero-however-tiny direction component still produces
+///   // a well-ordered (possibly huge, possibly Inf) t, which compares correctly
+///   // against t_max and the other axes' bounds. Only an *exact* zero direction
+///   // component takes the containment-check branch, so there is no artificial
+///   // control-flow cutoff left to create a false-negative window.
+pub fn ray_intersects_aabb(
+    ray_origin: Vector3<f64>,
+    ray_dir: Vector3<f64>,
+    aabb: AABB<f64>,
+    t_max: f64, // Explicit domain bound
+) -> Option<Intersection> {
+    let mut t_min = f64::NEG_INFINITY;
+    let mut t_max_slab = f64::INFINITY; // Distinct name: avoids shadowing the t_max parameter
+
+    // X-axis slab
+    if ray_dir.x != 0.0 {
+        let tx1 = (aabb.min.x - ray_origin.x) / ray_dir.x;
+        let tx2 = (aabb.max.x - ray_origin.x) / ray_dir.x;
+        t_min = t_min.max(tx1.min(tx2));
+        t_max_slab = t_max_slab.min(tx1.max(tx2));
+    } else if ray_origin.x < aabb.min.x || ray_origin.x > aabb.max.x {
+        return None; // Exactly parallel to the X slab and strictly outside it
+    }
+
+    // Y-axis slab
+    if ray_dir.y != 0.0 {
+        let ty1 = (aabb.min.y - ray_origin.y) / ray_dir.y;
+        let ty2 = (aabb.max.y - ray_origin.y) / ray_dir.y;
+        t_min = t_min.max(ty1.min(ty2));
+        t_max_slab = t_max_slab.min(ty1.max(ty2));
+    } else if ray_origin.y < aabb.min.y || ray_origin.y > aabb.max.y {
+        return None;
+    }
+
+    // Z-axis slab
+    if ray_dir.z != 0.0 {
+        let tz1 = (aabb.min.z - ray_origin.z) / ray_dir.z;
+        let tz2 = (aabb.max.z - ray_origin.z) / ray_dir.z;
+        t_min = t_min.max(tz1.min(tz2));
+        t_max_slab = t_max_slab.min(tz1.max(tz2));
+    } else if ray_origin.z < aabb.min.z || ray_origin.z > aabb.max.z {
+        return None;
+    }
+
+    if t_max_slab >= t_min && t_max_slab >= 0.0 {
+        let t_near = t_min.max(0.0);
+        if t_near <= t_max {
+            Some(Intersection {
+                t_near,
+                t_far: t_max_slab,
+            })
+        } else {
+            None
+        }
+    } else {
+        None
+    }
+}
+```
+
+---
+
+## 7. Regulatory Roadmap (DO-178C / DO-330 / FDA / Financial Model Risk)
+
+Formal proofs and Proof Certificates are strong *evidence* for certification but are not themselves a certification. To make the Section 2 claims fully true rather than aspirational, `tpt-certus` treats regulatory and competitive-positioning readiness as an explicit, staged engineering track:
+
+| Phase | Deliverable | Objective Addressed |
+| :--- | :--- | :--- |
+| 1 | Proof Certificate format finalized; `tpt-certus-proof` crate ships. Lightweight competitive survey of formally-verified spatial/rendering libraries conducted to substantiate or revise the Section 1 positioning claim. | Establishes traceable, machine-readable verification records (supports DO-178C Table A-5 objectives on requirements-based test/proof traceability). Confirms the "among a very small set" claim in Section 1 is accurate before wider external use. |
+| 2 | `tpt-telos` itself undergoes tool-qualification analysis under DO-330 (TQL assessment for a verification tool used to eliminate/reduce verification activity), explicitly covering the ε-auto-derivation mechanism described in Section 5.1. | Makes `tpt-telos`'s output, including auto-derived error bounds, usable as qualified-tool evidence, not just supplementary documentation. |
+| 3 | Independent audit of the FM-elimination soundness argument and the realization-layer `ε`-derivation, by a third party with DO-178C/FDA design-control experience. | Confirms the two-layer soundness claim (Section 5.1) holds up under external scrutiny before it appears in customer-facing certification packages. |
+| 4 | Reference submission package (redacted) built against the Phase 1 ray-AABB primitive, as a template for customers' own submissions. | Converts the abstract claim "certifiable" into a concrete, reusable artifact customers can point their regulatory teams at. |
+| 5 | Financial model-risk track: map Proof Certificate contents to a specific model-risk-management framework (e.g., SR 11-7-style effective-challenge and documentation expectations), in consultation with a financial model-risk practitioner. | Gives the Section 2 financial row an equivalent staged path to the ones aerospace and medical already have via Phases 1–4, rather than leaving it as an unstaged claim. |
+
+We do not claim "regulatory submission ready" before Phase 3 completes, and we do not claim the financial use case has an established model-risk pathway before Phase 5 completes; until then, Section 2's rows describe verification evidence, staged toward but not yet equivalent to, a completed regulatory or model-risk submission.
+
+---
+
+## 8. Phase 1 Exit Criteria
+
+Phase 1 is complete when all of the following hold, not just when the code compiles:
+
+1. `ray_intersects_aabb` passes both ideal-layer and realization-layer proofs as specified in Section 6, including the boundary and near-tangent postconditions.
+2. The FM-elimination scalability benchmark (Section 5.2) is run, at build time, against the construction/mutation functions exercised by a synthetic BVH at depths 4, 8, 12, and 16, with proof time and memory recorded — this is the evidence gate for committing to "self-contained solver, no external SMT dependency" as a permanent architectural principle rather than a Phase-1-only convenience.
+3. A first-draft Proof Certificate is generated for the Phase 1 crate and reviewed against the DO-330 objective mapping in Section 7, Phase 1.
+4. The two-layer soundness mechanism in `tpt-telos` (auto-derivation of realization-layer `ε` from ideal contracts) is demonstrated on at least two functions beyond `ray_intersects_aabb`, to confirm it generalizes rather than being hand-tuned to one example.
+5. The Section 1 competitive-positioning claim is checked against the Phase 1 survey (Section 7) and revised if the survey surfaces a closer prior-art match than currently known.
+
+---
+
+## Appendix A: Revision History — Section 6 Contract (Phase 1 Ray-AABB)
+
+Kept separate from the specification body (Section 6) so that section reads as pure spec rather than change narrative.
+
+- **Boundary postcondition** (origin exactly on a face) — closes a gap the original epsilon threshold silently papered over: "inside" is now unambiguous at the edge.
+- **Realization Layer with auto-derived `EPSILON_T`** — converts "the intersection is exact" into "the intersection is within a published, per-build numeric bound," a claim actually true of the compiled binary rather than only of the specification.
+- **Explicit `t_max` domain bound** — the no-false-negative claim is only meaningful over a bounded ray length; without this, "tiny but nonzero slope eventually crosses the slab at an enormous `t`" made the claim unprovable over an unbounded domain.
+- **Removal of the magnitude-based `TANGENT_THRESHOLD` shortcut in the control flow** — an intermediate draft narrowed the false-negative window by adding `t_max` but kept the magnitude shortcut, which left a thin but real counterexample band (origins within roughly `t_max · TANGENT_THRESHOLD` of the slab, on a tiny-but-nonzero-slope axis). Replacing the shortcut with an exact-zero check (`ray_dir.x != 0.0`) removes the cutoff entirely: IEEE-754 division of any nonzero divisor, however small, still produces a correctly-ordered `t`, so the no-false-negative postcondition now holds over the whole bounded domain rather than outside a residual band.
+- **Independent `let ideal = ...` binding in each realization-layer `ensures` clause** — contract clauses are independent predicates; a binding made in one does not carry into the next, so each clause re-derives `ideal` rather than assuming shared scope.
+- **Explicit NaN/finiteness scope note** — states outright that malformed inputs are out of contract scope (handled upstream), rather than leaving that boundary for a reader to infer.
+
+## Appendix B: v2 → v3 Changes to This Document
+
+- **Section 5.2** rewritten to explicitly state compositional verification targets construction/mutation *functions*, proven once at build time and universally quantified — not per-instance runtime proofs over live tree nodes. No scope was dropped; this clarifies what was always intended but was ambiguous in v2.
+- **Section 1** superlative softened from "the only" to "among a very small set... to our knowledge," with a Phase 1 competitive-survey deliverable added (Section 7) and referenced from Section 8's exit criteria, so the claim gets substantiated rather than just hedged.
+- **Section 3, point 6** scoped explicitly to `tpt-certus`'s own crates; transitive dependencies (`tpt-math`, `tpt-engineering`, `wgpu`) are now explicitly excluded from the no-`unsafe` guarantee rather than left ambiguous.
+- **Section 5.1** adds an explicit statement that the ε-auto-derivation mechanism is trusted tooling pending Phase 2's DO-330 qualification, rather than implying it's correct-by-construction with no further scrutiny needed.
+- **Section 2 / Section 7** add a fifth regulatory-track phase giving the financial use case a staged path (model-risk-management framework mapping) equivalent to what aerospace/medical already had.
+- **Section 5.3** adds one sentence stating explicitly that a failed proof obligation fails the build (no partial certificates), closing a previously unstated gap.
+- Bevy/Three.js named comparison in Section 1 replaced with "traditional rendering engines" to avoid an uneven specific-vs-general comparison.
+- Revision-history content moved out of Section 6 into Appendix A so the spec section itself stays purely specificational.
+
+No sections, features, crates, contracts, or roadmap items were removed. All changes are clarifications, explicit scoping, or additive staging.
