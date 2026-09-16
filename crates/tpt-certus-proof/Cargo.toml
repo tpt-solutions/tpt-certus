@@ -13,6 +13,8 @@ description = "Proof-certificate assembly, error-bound bookkeeping, and DO-330-f
 tpt-for-model-check = { workspace = true }
 tpt-for-vcgen = { workspace = true }
 tpt-telos-sdk = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
 
 # Phase 1 will add: tpt-certus-math, tpt-certus-geometry, tpt-certus-spatial
 # (for aggregating certificate entries from verified functions).

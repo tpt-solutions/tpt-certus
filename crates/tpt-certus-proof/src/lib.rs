@@ -15,7 +15,16 @@
 //! If any proof obligation fails, the build fails: an unproven contract is
 //! never emitted into a Proof Certificate.  There is no partial or best-effort
 //! certificate — the certificate's existence is itself evidence that every
-//! obligation it lists was discharged.
+//! obligation it lists was discharged ([`ProofCertificate::is_complete`]).
+//!
+//! # Manifest determinism
+//!
+//! [`ProofCertificate::to_json`] serializes the certificate to a stable,
+//! build-deterministic JSON document: field order follows declaration order
+//! (guaranteed for the derived `serde` impls here), and each field is emitted
+//! the same way for the same logical content.  Two builds of identical inputs
+//! therefore produce byte-identical manifests, which is what makes the
+//! certificate usable as a reproducible DO-178C / DO-330 evidence artifact.
 //!
 //! # Two-layer role
 //!
@@ -26,53 +35,137 @@
 //!
 //! # Status
 //!
-//! Phase 0 scaffold only — certificate assembly, DO-330 manifest format, and
-//! CI gate wiring are added in Phase 1.
+//! Phase 1 progress: first-draft machine-readable Proof Certificate manifest
+//! (structured source locations, regulatory objectives, composition lemmas,
+//! pinned toolchain version, deterministic JSON export).  Assembly from
+//! `tpt-telos` build artifacts and the DO-330 CI-gate wiring land once
+//! upstream `tpt-telos` codegen produces contract-faithful output.
 
 #![no_std]
+#![forbid(unsafe_code)]
 
 extern crate alloc;
 
 use alloc::vec::Vec;
+use serde::{Deserialize, Serialize};
+
+/// Manifest schema version.  Bump on any breaking change to the emitted JSON
+/// so downstream tooling can reject unrecognized manifests without misparsing.
+pub const MANIFEST_VERSION: u32 = 1;
+
+/// A precise source span in a `.telos` file, cross-referencing a certificate
+/// entry to the exact contract lines that were verified.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct SourceLocation {
+    /// Path relative to the workspace root (e.g. `crates/tpt-certus-spatial/telos/ray_aabb.telos`).
+    pub file: alloc::string::String,
+    /// 1-based line where the contract's `requires`/`ensures` block starts.
+    pub line_start: u32,
+    /// 1-based inclusive line where the contract's block ends.
+    pub line_end: u32,
+}
+
+/// A named regulatory objective that a certificate entry supports.  Kept as a
+/// discrete enum (rather than free text) so the manifest is machine-checkable
+/// against each objective family.  Each variant serde-renames to a stable,
+/// audit-facing identifier (never the Rust identifier).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub enum RegulatoryObjective {
+    /// DO-178C Table A-5: requirements-based verification evidence (traceable
+    /// from high/low-level requirements to verification results).
+    #[serde(rename = "do-178c-requirements-verification")]
+    Do178cRequirementsVerification,
+    /// DO-178C Table A-5 / DO-333 Formal Methods supplement: formal
+    /// specification and verification of the artifact.
+    #[serde(rename = "do-178c-formal-methods")]
+    Do178cFormalMethods,
+    /// DO-330 (Tool Qualification): objective-critical guidance for the
+    /// criteria and tool as verification evidence.
+    #[serde(rename = "do-330-tool-qualification")]
+    Do330ToolQualification,
+    /// FDA design/quality controls (21 CFR 820 / FDA 2008 design control
+    /// guidance): verification/validation records supporting design controls.
+    #[serde(rename = "fda-design-controls")]
+    FdaDesignControls,
+}
+
+impl SourceLocation {
+    /// Create a validated source span.  Returns `None` if the span is empty or
+    /// inverted (`line_start > line_end`), which would make the reference
+    /// useless as audit evidence.
+    pub fn new(
+        file: alloc::string::String,
+        line_start: u32,
+        line_end: u32,
+    ) -> Option<SourceLocation> {
+        if line_start == 0 || line_end < line_start {
+            return None;
+        }
+        Some(SourceLocation {
+            file,
+            line_start,
+            line_end,
+        })
+    }
+
+    /// Whether this span is a usable source reference (`line_start <= line_end`, non-zero).
+    fn is_valid(&self) -> bool {
+        self.line_start != 0 && self.line_start <= self.line_end
+    }
+}
 
 /// A single entry in a Proof Certificate, tying a verified function to its
 /// proof artifacts and regulatory objective.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CertificateEntry {
     /// Fully-qualified function name (e.g. `tpt_certus_spatial::ray_aabb::ray_intersects_aabb`).
     pub function: alloc::string::String,
-    /// Source file and line range in the `.telos` source.
-    pub source_location: alloc::string::String,
+    /// Source span of the verified contract in the `.telos` file.
+    pub source_location: SourceLocation,
     /// The ideal-layer postcondition(s) proven (human-readable summary).
     pub ideal_contract: alloc::string::String,
     /// The realization-layer postcondition(s) proven (human-readable summary).
     pub realization_contract: alloc::string::String,
-    /// Auto-derived `ε` bound (may be `None` if the function has no
-    /// floating-point operations).
+    /// Auto-derived `ε` bound for the realization layer (`None` for functions
+    /// with no floating-point operations).
     pub epsilon: Option<f64>,
-    /// Regulatory objective(s) this certificate entry supports (e.g.
-    /// `"DO-178C Table A-5 req-based-test"`).
-    pub regulatory_objective: alloc::string::String,
+    /// Composition lemmas used when this function's contract was assembled
+    /// compositionally (empty for a leaf function).
+    pub composition_lemmas: Vec<alloc::string::String>,
+    /// Regulatory objective(s) this certificate entry supports.
+    pub regulatory_objective: RegulatoryObjective,
 }
 
 /// A complete Proof Certificate for a single build.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ProofCertificate {
+    /// Schema version of the emitted manifest.
+    pub manifest_version: u32,
     /// Monotonically increasing build identifier (typically a git SHA or CI run number).
     pub build_id: alloc::string::String,
     /// ISO-8601 timestamp of the build.
     pub timestamp: alloc::string::String,
+    /// Exact `tpt-telos` version used to produce this certificate (DO-330 /
+    /// reproducibility: the manifest is meaningless without the toolchain it
+    /// was produced by).
+    pub telos_version: alloc::string::String,
     /// All verified-function entries in this certificate.
     pub entries: Vec<CertificateEntry>,
 }
 
 impl ProofCertificate {
-    /// Create an empty certificate shell.  Phase 1 will populate this from
-    /// `tpt-telos` build artifacts.
-    pub fn new(build_id: alloc::string::String, timestamp: alloc::string::String) -> Self {
+    /// Create an empty certificate shell with the toolchain that produced it.
+    /// Phase 1 will populate this from `tpt-telos` build artifacts.
+    pub fn new(
+        build_id: alloc::string::String,
+        timestamp: alloc::string::String,
+        telos_version: alloc::string::String,
+    ) -> Self {
         ProofCertificate {
+            manifest_version: MANIFEST_VERSION,
             build_id,
             timestamp,
+            telos_version,
             entries: Vec::new(),
         }
     }
@@ -82,11 +175,29 @@ impl ProofCertificate {
         self.entries.len()
     }
 
-    /// All proof obligations discharged — `true` only when the certificate is
-    /// complete.  Phase 1 adds a hard gate: if `!is_complete()` the build
-    /// fails.
+    /// All proof obligations discharged with valid, attributable contracts —
+    /// `true` only when every entry references a well-formed source span and
+    /// the certificate is non-empty.  Phase 1 adds a hard CI gate: if
+    /// `!is_complete()` the build fails, so no partial certificate is ever
+    /// emitted.
     pub fn is_complete(&self) -> bool {
-        !self.entries.is_empty()
+        !self.entries.is_empty() && self.entries.iter().all(|e| e.source_location.is_valid())
+    }
+
+    /// Serialize to the deterministic, machine-readable manifest (JSON).
+    ///
+    /// Deterministic by construction: derived `serde` impls emit struct fields
+    /// in declaration order and scalars canonically, so identical input
+    /// content always produces identical bytes.  `f64` values serialize in
+    /// shortest-round-trip form.
+    pub fn to_json(&self) -> alloc::string::String {
+        serde_json::to_string(self).expect("ProofCertificate is always JSON-serializable")
+    }
+
+    /// Serialize with indentation for human auditor review.  Same byte
+    /// determinism guarantees as [`ProofCertificate::to_json`].
+    pub fn to_json_pretty(&self) -> alloc::string::String {
+        serde_json::to_string_pretty(self).expect("ProofCertificate is always JSON-serializable")
     }
 }
 
@@ -94,25 +205,116 @@ impl ProofCertificate {
 mod tests {
     use super::*;
 
+    fn sample_entry() -> CertificateEntry {
+        CertificateEntry {
+            function: "tpt_certus_spatial::ray_aabb::ray_intersects_aabb".into(),
+            source_location: SourceLocation::new(
+                "crates/tpt-certus-spatial/telos/ray_aabb.telos".into(),
+                30,
+                42,
+            )
+            .expect("valid span"),
+            ideal_contract: "t_near >= 0.0 && t_near <= t_far && t_near <= t_max".into(),
+            realization_contract: "|f64 - ideal| <= EPSILON_T".into(),
+            epsilon: Some(1.0e-15),
+            composition_lemmas: Vec::new(),
+            regulatory_objective: RegulatoryObjective::Do178cRequirementsVerification,
+        }
+    }
+
     #[test]
     fn empty_certificate_not_complete() {
-        let cert = ProofCertificate::new("abc123".into(), "2026-08-20T00:00:00Z".into());
+        let cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
         assert_eq!(cert.entry_count(), 0);
         assert!(!cert.is_complete());
     }
 
     #[test]
     fn certificate_with_entry_is_complete() {
-        let mut cert = ProofCertificate::new("abc123".into(), "2026-08-20T00:00:00Z".into());
-        cert.entries.push(CertificateEntry {
-            function: "tpt_certus_spatial::ray_aabb::ray_intersects_aabb".into(),
-            source_location: "telos/ray_aabb.telos:1".into(),
-            ideal_contract: "t_near >= 0.0 && t_near <= t_far && t_near <= t_max".into(),
-            realization_contract: "|f64 - ideal| <= EPSILON_T".into(),
-            epsilon: Some(1.1102230246251565e-16),
-            regulatory_objective: "DO-178C Table A-5".into(),
-        });
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        cert.entries.push(sample_entry());
         assert_eq!(cert.entry_count(), 1);
         assert!(cert.is_complete());
+    }
+
+    #[test]
+    fn inverted_source_span_rejected_and_breaks_completeness() {
+        assert!(SourceLocation::new("f.telos".into(), 5, 3).is_none());
+        assert!(SourceLocation::new("f.telos".into(), 0, 3).is_none());
+
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        let mut entry = sample_entry();
+        entry.source_location = SourceLocation {
+            file: "crates/tpt-certus-spatial/telos/ray_aabb.telos".into(),
+            line_start: 42,
+            line_end: 30,
+        };
+        cert.entries.push(entry);
+        assert!(
+            !cert.is_complete(),
+            "inverted span must not be complete evidence"
+        );
+    }
+
+    #[test]
+    fn json_manifest_is_deterministic() {
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        cert.entries.push(sample_entry());
+        cert.entries.push(sample_entry());
+
+        let a = cert.to_json();
+        let b = cert.to_json();
+        assert_eq!(
+            a, b,
+            "identical certificate must serialize to identical bytes"
+        );
+    }
+
+    #[test]
+    fn json_manifest_roundtrips() {
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        cert.entries.push(sample_entry());
+
+        let json = cert.to_json();
+        let back: ProofCertificate = serde_json::from_str(&json).expect("manifest parses");
+        assert_eq!(cert, back);
+        assert_eq!(back.manifest_version, MANIFEST_VERSION);
+    }
+
+    #[test]
+    fn manifest_records_toolchain_and_objective() {
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        cert.entries.push(sample_entry());
+
+        let json = cert.to_json();
+        assert!(
+            json.contains("=0.2.0"),
+            "toolchain pin must appear in the manifest"
+        );
+        assert!(json.contains("do-178c-requirements-verification"));
     }
 }

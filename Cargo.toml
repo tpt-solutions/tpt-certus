@@ -46,6 +46,12 @@ tpt-certus-state = { path = "crates/tpt-certus-state" }
 tpt-certus-render = { path = "crates/tpt-certus-render" }
 tpt-certus-proof = { path = "crates/tpt-certus-proof" }
 
+# --- General-purpose deps (no_std-compatible) ---
+# JSON for the machine-readable Proof Certificate manifest and DO-330 audit
+# logs.  `default-features = false` keeps them no_std + alloc-only.
+serde = { version = "1", default-features = false, features = ["alloc", "derive"] }
+serde_json = { version = "1", default-features = false, features = ["alloc"] }
+
 [workspace.lints.rust]
 unsafe_code = "forbid"
 unsafe_op_in_unsafe_fn = "warn"

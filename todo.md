@@ -108,11 +108,12 @@ Draft authored and passing `telos verify` (CI-safe): `crates/tpt-certus-spatial/
 
 ### 1.4 Proof Certificate (`tpt-certus-proof`)
 
-- [ ] Implement per-build Proof Certificate assembly: ideal + realization contracts for every verified function reachable from the build
-- [ ] Include composition lemmas used (n/a for Phase 1's single function, but wire the field)
-- [ ] Machine-readable manifest cross-referencing certificate entries to source locations and regulatory objectives (e.g. DO-178C Table A-5)
-- [ ] Wire hard CI gate: any failed proof obligation fails the build; no partial/best-effort certificate is ever emitted
-- [ ] First-draft Proof Certificate generated for the Phase 1 crate and reviewed against the DO-330 objective mapping (Section 7, Phase 1)
+- [x] **Machine-readable manifest** — first draft implemented in `src/lib.rs`: `MANIFEST_VERSION` (v1), structured `SourceLocation` (file + validated 1-based line span, rejects inverted/zero spans), `RegulatoryObjective` enum (DO-178C Table A-5 requirements-verification / formal-methods, DO-330 tool-qualification, FDA design-controls) with stable serde identifiers, `composition_lemmas`, pinned `telos_version` field, and deterministic `to_json()`/`to_json_pretty()` export (field order = declaration order → byte-identical for identical content)
+- [ ] Implement per-build Proof Certificate assembly: ideal + realization contracts for every verified function reachable from the build — blocked: assembly consumes `tpt-telos build` artifacts, whose codegen is contract-lossy (Phase 1.2 finding)
+- [x] Include composition lemmas used (n/a for Phase 1's single function, but wire the field) — `CertificateEntry::composition_lemmas` field wired and serialized
+- [ ] Cross-reference manifest entries to DO-178C Table A-5 objective rows — enum identifiers in place; full row-level mapping with the DO-330 objective mapping reviewed in Phase 2
+- [ ] Wire hard CI gate: any failed proof obligation fails the build; no partial/best-effort certificate is ever emitted — `is_complete()` hard-gate semantics defined (`!empty && all source spans valid`); CI wiring lands with `telos build` integration
+- [ ] First-draft Proof Certificate generated for the Phase 1 crate and reviewed against the DO-330 objective mapping (Section 7, Phase 1) — blocked on `telos build` (Phase 1.2 finding)
 
 ### 1.5 FM-elimination scalability benchmark (Section 5.2 / exit criterion 2)
 
