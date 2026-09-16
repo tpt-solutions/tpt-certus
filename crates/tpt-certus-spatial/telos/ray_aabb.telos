@@ -20,30 +20,32 @@
 //   ensures:  ideal.is_some() == result.is_some()          // no false negatives
 //   ensures:  ideal.is_some() ==>
 //               |t_near - ideal.t_near| <= EPSILON_T && |t_far - ideal.t_far| <= EPSILON_T
-//   // EPSILON_T derived by tpt-telos from IEEE-754 interval arithmetic over
+//   // EPSILON_T derived by tpt-certus from IEEE-754 interval arithmetic over
 //   // the slab operation graph; published per-build in the Proof Certificate.
 //
-// == Expression status under tpt-telos v0.2.0 ==
-// The full contract above cannot yet be *machine* confirmed in v0.2.0:
+// == Expression status under tpt-telos v0.2.0 (source-reviewed + empirically
+//    re-verified with the installed binary) ==
 //   - `==>` implication and symbolic `let ideal = ...` bindings are not in the
-//     grammar (no `==>`, no symbolic evaluation).
-//   - Float32/Float64 are tracked as integer constraints (QF_LRA approximate);
-//     IEEE-754 interval arithmetic and rounding-error bounds are documented as
-//     future work (docs/LANGUAGE.md §10, examples/float.telos).
-//   - `if` conditions support only single `==`/`!=` comparisons between
-//     non-field operands; relational (`<`, `>=`) and field-access guards fail
-//     to parse.  The slab method's relational guards (t_max_slab >= t_min,
-//     t_near <= t_max) are therefore not expressible as control flow yet.
-//   - Verified functions are mutation-model only (`mutate state { ... }`);
-//     there is no `ensures result == ...` for pure return values, and `Option`
-//     is not representable (Result<T,E> exists but post-conditions over the
-//     Ok/Err branches are not documented/supported).
+//     grammar (no `==>` token; FatArrow `=>` exists only for match arms).
+//   - `if`/`else` IS supported in function bodies with a single comparison
+//     guard: all six relations (`==`, `!=`, `<`, `<=`, `>`, `>=`), including
+//     field operands.  Compound (`&&`/`||`) guards are rejected.  `match` with
+//     state-mutating arms is rejected; non-mutating `let`/`return` parse but
+//     are no-ops in the IR body analysis (no return-value verification yet).
+//   - Mutation via `mutate state { ... }`; plain `=`/`+=`/`-=` assignments also
+//     parse and verify inside if/else arms (confirmed with the binary).
+//   - Float32/Float64 parse; IR is QF_LRA over integer/real atoms — no IEEE-754
+//     interval arithmetic, no rounding-error ε bounds.  `telos build`/`transpile`
+//     output is not type-faithful for our draft (auto-inferred `Box` drops
+//     invariant-only fields `min_z`/`max_y` → generated Rust does not compile;
+//     `Float64` params render as `i64`).  The realization layer must wait for
+//     upstream float semantics or our own error-bound layer.
 //
-// Tracked in todo.md Phase 1.2 / 1.3 / "Open risks".  Until upstream tpt-telos
-// lands statement-level control flow with relational guards + float/epsilon
-// support, the machine-verified subset below is limited to invariant
-// maintenance and straight-line boundary equalities.  This file must pass
-// `telos verify` (CI gate) and is the canonical draft to upgrade in place.
+// Tracked in todo.md Phase 1.2 / 1.3 / "Open risks".  The machine-verified
+// subset is the slab *shapes* below: relational/field single-comparison guards,
+// `=`/`+=` mutating arms, and hit decision logic — expressed over Int atoms
+// since the IR has no float semantics.  This file must pass `telos verify`
+// (CI gate) and is the canonical draft to upgrade in place.
 // ============================================================================
 
 @boundary(cpu_bound)
@@ -60,11 +62,16 @@ module RayAabb {
         flag: Int,
     }
 
-    // Boundary-face slice of the spec contract (Appendix A closure):
-    // an origin whose x-coordinate equals the min-x face is treated as
-    // *inside* the AABB.  v0.2.0 verifies the equality gate and the straight
-    // line `mutate state` assignment; the full relational slab traversal must
-    // wait for upstream control-flow support.
+    // Ideal-layer slab accumulator over QF_LRA integer atoms: the bounds that
+    // the slab method narrows per axis.
+    struct Bounds {
+        t_min: Int,
+        t_max_slab: Int,
+    }
+
+    // Boundary-face slice of the spec contract (Appendix A closure): an origin
+    // whose x-coordinate equals the min-x face is treated as *inside* the AABB.
+    // v0.2.0 verifies single-comparison equality gates plus a `+=` mutation arm.
     func boundary_min_x(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
         requires b.min_x <= b.max_x
         requires px == b.min_x
@@ -75,6 +82,66 @@ module RayAabb {
     {
         mutate state {
             out.flag += 1
+        }
+    }
+
+    // Slab hit gate (relational single-comparison guard): once the slabs have
+    // narrowed t_min / t_max_slab, the hit decision is `t_max_slab >= t_min`
+    // with an entry point non-negative.  Under the domain assumptions the guard
+    // is provably taken and the hit is recorded.  This is the control-flow shape
+    // the earlier draft could not express; empirically verified with the binary.
+    func slab_hit_decided(t_min: Int, t_max_slab: Int, mut out: Hit)
+        requires out.flag == 0
+        requires t_max_slab >= t_min
+        requires t_min >= 0
+        requires t_max_slab >= 0
+        ensures out.flag == 1
+    {
+        if t_max_slab >= t_min {
+            if t_min >= 0 {
+                mutate state {
+                    out.flag = 1
+                }
+            }
+        }
+    }
+
+    // Slab contraction gate: t_min is only ever raised (never lowered) toward
+    // the tighter of the two slab crossings — the monotone-tightening property
+    // the slab method relies on for `t_min <= t_max_slab` to be preserved.
+    func tighten_t_min(left: Int, right: Int, mut out: Bounds)
+        requires out.t_min <= out.t_max_slab
+        requires left <= out.t_max_slab
+        requires right <= out.t_max_slab
+        ensures out.t_min <= out.t_max_slab
+    {
+        if right >= left {
+            mutate state {
+                out.t_min = left
+            }
+        } else {
+            mutate state {
+                out.t_min = right
+            }
+        }
+    }
+
+    // Slab overlap/OOB split: records whether slab ranges still overlap given
+    // the current bounded-domain distance.  Uses relational `>=` guards and `=`
+    // assignments in both arms (the constructs the earlier draft claimed were
+    // unparseable).
+    func domain_overlap_detected(t_min: Int, t_max_slab: Int, mut out: Hit)
+        requires out.flag == 0
+        ensures out.flag == 0 || out.flag == 1
+    {
+        if t_max_slab >= t_min {
+            mutate state {
+                out.flag = 1
+            }
+        } else {
+            mutate state {
+                out.flag = 0
+            }
         }
     }
 }

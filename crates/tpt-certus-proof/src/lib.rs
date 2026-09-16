@@ -37,9 +37,13 @@
 //!
 //! Phase 1 progress: first-draft machine-readable Proof Certificate manifest
 //! (structured source locations, regulatory objectives, composition lemmas,
-//! pinned toolchain version, deterministic JSON export).  Assembly from
-//! `tpt-telos` build artifacts and the DO-330 CI-gate wiring land once
-//! upstream `tpt-telos` codegen produces contract-faithful output.
+//! pinned toolchain version, deterministic JSON export), plus a
+//! [`telos_manifest`] bridge that parses `tpt-telos`'s *native*
+//! `telos-proof.json` and cross-checks certificate entries against its
+//! per-function verification outcomes ([`ProofCertificate::is_supported_by`]).
+//! Full assembly from build artifacts and the DO-330 CI-gate wiring land once
+//! upstream `tpt-telos` codegen produces contract-faithful output (Phase 1.2
+//! finding: `telos build` currently emits non-compiling Rust for the draft).
 
 #![no_std]
 #![forbid(unsafe_code)]
@@ -48,6 +52,8 @@ extern crate alloc;
 
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
+
+pub mod telos_manifest;
 
 /// Manifest schema version.  Bump on any breaking change to the emitted JSON
 /// so downstream tooling can reject unrecognized manifests without misparsing.
@@ -112,6 +118,13 @@ impl SourceLocation {
     fn is_valid(&self) -> bool {
         self.line_start != 0 && self.line_start <= self.line_end
     }
+}
+
+/// Trailing path segment of a fully-qualified function name
+/// (`module::path::func` → `func`), matching the bare function-name keys used
+/// by `tpt-telos`'s native `telos-proof.json`.
+fn base_name(fqn: &str) -> &str {
+    fqn.rsplit("::").next().unwrap_or(fqn)
 }
 
 /// A single entry in a Proof Certificate, tying a verified function to its
@@ -182,6 +195,27 @@ impl ProofCertificate {
     /// emitted.
     pub fn is_complete(&self) -> bool {
         !self.entries.is_empty() && self.entries.iter().all(|e| e.source_location.is_valid())
+    }
+
+    /// Cross-check every certificate entry against the `tpt-telos`-native proof
+    /// manifest for the same build: each entry's function must appear in the
+    /// native manifest as `verified`, and the native manifest must itself list
+    /// only verified functions (`all_functions_verified`).  Certificate entries
+    /// carry fully-qualified names (`mod::...::fn`); the native manifest keys
+    /// by the bare `.telos` function name, so matching is by the trailing
+    /// path segment.  This is the Phase 1.4 link between our certificate and
+    /// the tool's own tamper-checkable `telos-proof.json` — a certificate that
+    /// references a function the tool did *not* prove is rejected even if its
+    /// source span is well-formed.
+    pub fn is_supported_by(&self, native: &telos_manifest::TelosProofManifest) -> bool {
+        if !native.all_functions_verified() {
+            return false;
+        }
+        let verified: alloc::collections::BTreeSet<&str> =
+            native.verified_function_names().into_iter().collect();
+        self.entries.iter().all(|e| {
+            verified.contains(base_name(&e.function)) || verified.contains(e.function.as_str())
+        })
     }
 
     /// Serialize to the deterministic, machine-readable manifest (JSON).
@@ -316,5 +350,120 @@ mod tests {
             "toolchain pin must appear in the manifest"
         );
         assert!(json.contains("do-178c-requirements-verification"));
+    }
+
+    #[test]
+    fn complete_certificate_covered_by_native_manifest() {
+        // The four machine-verified functions of the current ray_aabb.telos
+        // draft, as recorded by the tool's own telos-proof.json.
+        let native = telos_manifest::TelosProofManifest::parse(
+            r#"{
+  "schema_version": "1",
+  "source_hash": "sha256:0000111122223333444455556666777788889999aaaabbbbccccddddeeeeffff",
+  "verified_at": "2026-09-17T12:00:00Z",
+  "functions": {
+    "boundary_min_x": {
+      "verified": true,
+      "conclusions_checked": 4,
+      "conclusions_passed": 4,
+      "used_interval_bounding": false
+    },
+    "slab_hit_decided": {
+      "verified": true,
+      "conclusions_checked": 3,
+      "conclusions_passed": 3,
+      "used_interval_bounding": false
+    },
+    "tighten_t_min": {
+      "verified": true,
+      "conclusions_checked": 2,
+      "conclusions_passed": 2,
+      "used_interval_bounding": false
+    },
+    "domain_overlap_detected": {
+      "verified": true,
+      "conclusions_checked": 2,
+      "conclusions_passed": 2,
+      "used_interval_bounding": false
+    }
+  },
+  "manifest_hash": "sha256:abcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdefabcdef0000"
+}
+"#,
+        )
+        .expect("native manifest parses");
+
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        for name in [
+            "boundary_min_x",
+            "slab_hit_decided",
+            "tighten_t_min",
+            "domain_overlap_detected",
+        ] {
+            let mut entry = sample_entry();
+            entry.function = alloc::format!("tpt_certus_spatial::telos::ray_aabb::{name}");
+            cert.entries.push(entry);
+        }
+
+        assert!(cert.is_complete());
+        assert!(
+            cert.is_supported_by(&native),
+            "every entry must map to a natively-verified function"
+        );
+    }
+
+    #[test]
+    fn uncovered_entry_fails_native_cross_check() {
+        let native = telos_manifest::TelosProofManifest::parse(
+            r#"{
+  "schema_version": "1",
+  "source_hash": "sha256:0000111122223333444455556666777788889999aaaabbbbccccddddeeeeffff",
+  "verified_at": "2026-09-17T12:00:00Z",
+  "functions": {
+    "boundary_min_x": {
+      "verified": true,
+      "conclusions_checked": 4,
+      "conclusions_passed": 4,
+      "used_interval_bounding": false
+    }
+  },
+  "manifest_hash": "sha256:0000"
+}
+"#,
+        )
+        .expect("native manifest parses");
+
+        let mut cert = ProofCertificate::new(
+            "abc123".into(),
+            "2026-08-20T00:00:00Z".into(),
+            "=0.2.0".into(),
+        );
+        // Entry for a function the tool did not prove.
+        let mut entry = sample_entry();
+        entry.function = "tpt_certus_spatial::telos::ray_aabb::not_proven".into();
+        cert.entries.push(entry);
+
+        assert!(
+            !cert.is_supported_by(&native),
+            "certificate must not claim functions the tool did not verify"
+        );
+
+        // And a manifest listing any unverified function is rejected outright.
+        let mut native_untrusted = native.clone();
+        native_untrusted.functions.insert(
+            "broken".into(),
+            telos_manifest::TelosFuncProof {
+                verified: false,
+                conclusions_checked: 1,
+                conclusions_passed: 0,
+                used_interval_bounding: false,
+            },
+        );
+        cert.entries[0].function = "tpt_certus_spatial::telos::ray_aabb::boundary_min_x".into();
+        assert!(!cert.is_supported_by(&native_untrusted));
     }
 }

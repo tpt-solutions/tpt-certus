@@ -71,12 +71,14 @@ Every verified function carries two linked contracts:
   by no more than `ε`, where `ε` is **derived** (interval arithmetic over the
   function's operation graph), not asserted by hand.
 
-`tpt-telos` auto-derives the realization-layer `ε` from the ideal contract plus the
-operation graph, so authors write one specification and get both proofs. Until
-Phase 2's DO-330 tool-qualification analysis completes, the ε-autoderivation
-mechanism is treated as a documented **trust assumption**; the per-function ideal
-and realization contracts it produces are still individually checked by the FM
-solver.
+`tpt-certus` extends `tpt-telos` with this realization layer and its ε derivation
+(the upstream tool's IR is QF_LRA over integer/real atoms and does no IEEE-754
+rounding analysis, so the realization layer and its ε are our construction on top
+of telos, not an existing feature). Authors write one specification and the
+pipeline produces both proofs. Until Phase 2's DO-330 tool-qualification analysis
+completes, the ε derivation is treated as a documented **trust assumption**; the
+per-function ideal and realization contracts it produces are still individually
+checked by the FM solver.
 
 Composition is handled by proving construction/mutation *functions* at build time
 (`insert`, `rebalance`, `split_node`) with per-node-type invariants and one fixed

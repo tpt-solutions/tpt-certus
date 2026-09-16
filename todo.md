@@ -52,56 +52,94 @@ gaps for `ray_intersects_aabb`, as the template all later crates follow.
 ### 1.2 `.telos` source authoring for `ray_intersects_aabb`
 
 > **Phase 0/1 drafting findings (tpt-telos v0.2.0, verified with the installed
-> binary against the workspace):**
+> binary against the workspace, plus source review of the v0.2.0 crates —
+> `parser`, `ir`, `codegen`, `verify-manifest`):**
 > 1. **No `==>` / symbolic `let ideal = ...`:** the grammar has no implication
 >    operator and no symbolic-evaluation binding.  Realization-layer clauses
->    must be re-expressed once upstream adds these.
-> 2. **`if` conditions are severely restricted:** single comparison only, and
->    only `==`/`!=` over non-field operands.  Relational (`<`, `>=`) and
->    field-access guards fail to parse, so the slab method's relational gates
->    (`t_max_slab >= t_min`, `t_near <= t_max`) are **not expressible as control
->    flow** in v0.2.0.
-> 3. **Mutation model only:** `mutate state { ... }` is the sole mutation site;
->    `=` inside if-arms fails to parse (only `+=`/`-=` parse there, and only in
->    single-level ifs).  No `ensures result == ...` for pure return values and
->    no `Option` post-conditions.
-> 4. **`telos build` codegen is lossy:** for the draft `ray_aabb.telos` it
->    emitted a `Box` struct **missing contract-only fields** (`max_y`, `min_z`)
->    and typed `Float64` as `i64`, so the generated Rust did not compile.
-> 5. Float32/Float64 are tracked as integer constraints; IEEE-754 interval
->    arithmetic + rounding-error bounds are documented as future work.
+>    must be re-expressed (as DNF double-negation/disjunction) until then.
+> 2. **`if`/`else` *is* supported in function bodies, but with a single
+>    comparison guard only:** all six relations (`==`, `!=`, `<`, `<=`, `>`,
+>    `>=`) and **field operands** work (`tpt-telos-ir` `process_body_stmts`)
+>    — so the slab gates (`t_max_slab >= t_min`, `t_near <= t_max`) ARE
+>    expressible as single-comparison guards.  Only **compound** (`&&`/`||`)
+>    guards are rejected (`if`-guard must be a single comparison).  `match`
+>    with mutating arms is rejected; non-mutating `let`/`return` parse but are
+>    **no-ops in the IR body analysis**, so return-value post-conditions
+>    (`ensures result == ...`) are not verifiable yet.
+> 3. **Mutation model only — but `=` parses in if-arms:** `mutate state { ... }`
+>    is the designed mutation site and plain `=`/`+=`/`-=` assignments parse
+>    inside if/else arms (parser + IR both handle `Stmt::Assign`).  No `Option`
+>    post-conditions (only `Result<T,E>`); no verified return values.
+> 4. **Codegen float handling — `transpile`/`build` demotes floats and drops
+>    invariant-only fields (empirically re-confirmed v0.2.0):** `telos build`
+>    on the draft compiles the generated Rust and **fails** (E0609 unknown
+>    fields `max_y`/`min_z`): the emitted `Box` drops every field referenced
+>    *only* by the `invariant` (not by any param/`requires`/`mutate`), while
+>    `satisfies_invariants()` still references them; `Float64` params (`px`,
+>    `py`, `pz`) render as `i64`.  The main `render_type` maps `Float64 → f64`
+>    (`codegen/src/lib.rs`) and the **`project`/`eject` FFI path rejects floats
+>    outright** (`codegen/src/ffi.rs` "only integer types"), but the default
+>    agentic `transpile` output observed in practice demotes floats and drops
+>    invariant-only fields — so `telos build` output is still not contract- or
+>    type-faithful for our draft.
+> 5. Float32/Float64 parse and codegen, but the **IR has no float semantics**:
+>    the verifier is QF_LRA over integer/real atoms; interval arithmetic exists
+>    only for bounding nonlinear *integer* products (`used_interval_bounding`
+>    per-function flag in `telos-proof.json`), not IEEE-754 rounding bounds.
+>    ε auto-derivation remains absent (Phase 1.3).
 >
 > Net: the Section 6 contract is the *authored* ideal-layer contract (recorded
-> verbatim in `crates/tpt-certus-spatial/telos/ray_aabb.telos`), but only the
-> invariant-maintenance and straight-line equality slice can be **machine
-> verified** today.  The rest is blocked on upstream `tpt-telos` statement-level
-> control flow + float semantics (same upstream work as 1.3).
+> verbatim in `crates/tpt-certus-spatial/telos/ray_aabb.telos`).  A meaningful
+> slice can be **machine verified** today: invariant maintenance, straight-line
+> equality/`mutate` slices, and single-comparison `if`/`else` traversal with
+> mutating arms.  Genuinely blocked: compound guards, mutating `match`,
+> verified return values / `Option`, and the entire f64 realization layer.
 
 Draft authored and passing `telos verify` (CI-safe): `crates/tpt-certus-spatial/telos/ray_aabb.telos`
 - [x] `requires`: `aabb.min <= aabb.max` on all axes — machine-checked as `invariant Box` + `requires`
 - [x] Explicit NaN/finiteness out-of-scope note — recorded in-draft and in `tpt-certus-geometry`/`tpt-certus-spatial` scope notes
+
+> **Phase 1.2 empirical re-verification (v0.2.0 binary, scratch `.telos` in
+> temp):** the earlier "relational/field `if` guards fail to parse" record was
+> **wrong**.  Confirmed with the installed binary:
+> - `if b >= out.value { mutate state { out.flag = 1; out.value = b } } else { ... }`
+>   → **both branches verified PASS** (relational guard + field access + `=`
+>   assignments in arms all work).
+> - Compound guard `if b >= 3 && out.flag == 0 { ... }` → rejected with the
+>   exact message from `tpt-telos-ir` `process_body_stmts`.
+> - `match` with a state-mutating arm → rejected with the exact message from
+>   `process_body_stmts`.
+> - `let t = b;` then `out.value = t` with `ensures out.value == b` → **FAIL**
+>   (counterexample `out.value'=0, b=1`): `let` is a no-op in the IR body
+>   analysis (grammar's "in IR this becomes `x == e`" is not implemented).
+> - `telos build` on the draft → generated Rust **does not compile** (E0609
+>   unknown fields `max_y`/`min_z`); `transpile` emits `Hit.t_near: f64` but
+>   `px: i64`, and drops invariant-only `Box` fields.  Floats are not
+>   type-faithful on the default agentic path.
 - [ ] `requires`: `t_max > 0.0` (explicit bounded domain) — expressible in `requires`; pending full function that uses it
 - [ ] `requires`: ray direction non-zero on at least one axis — expressible via `!=` disjunction (DNF-supported); pending full function
-- [ ] `ensures`: valid intersection bounds (`0 <= t_near <= t_far`, `t_near <= t_max`, `t_far` intentionally unclipped) — blocked: relational control flow unparseable
-- [ ] `ensures`: origin strictly inside AABB ⟹ hit at `t_near == 0.0` — blocked as above
-- [ ] `ensures`: origin exactly on a boundary face ⟹ treated as inside (closes the boundary gap from Appendix A) — partially advanced: `boundary_min_x` slice verifies equality gate + `mutate` assignment (`out.flag` 0→1); full field/relational form blocked
-- [ ] `telos parse` / `telos verify` passes on the ideal-layer contract — passes for the authored slice; full contract blocked on upstream
-- [ ] `telos build` generates `ray_aabb.rs` into `tpt-certus-spatial/src/` — **blocked**: codegen drops contract-only fields and lossily demotes floats to integers; generated Rust did not compile
+- [ ] `ensures`: valid intersection bounds (`0 <= t_near <= t_far`, `t_near <= t_max`, `t_far` intentionally unclipped) — **partial**: `slab_hit_decided` + `domain_overlap_detected` machine-verify the relational hit-gate shape (`t_max_slab >= t_min`, `t_min >= 0`) with `=` arms (confirmed v0.2.0); blocked on verified return values (`ensures result == ...`) to state the actual bounds
+- [ ] `ensures`: origin strictly inside AABB ⟹ hit at `t_near == 0.0` — blocked on `==>`/return-value post-conditions
+- [ ] `ensures`: origin exactly on a boundary face ⟹ treated as inside (closes the boundary gap from Appendix A) — partially advanced: `boundary_min_x` slice verifies equality gate + `mutate` assignment (`out.flag` 0→1); full field/relational form blocked on return-value semantics
+- [ ] `telos parse` / `telos verify` passes on the ideal-layer contract — **passes for the current draft** (4 funcs, all branches PASS, incl. relational/field guards, nested `if`, `=`/`+=` arms, DNF `||` ensures); full contract blocked on `==>` + return-value verification
+- [ ] `telos build` generates `ray_aabb.rs` into `tpt-certus-spatial/src/` — **blocked (empirically re-confirmed v0.2.0)**: generated crate does not compile. Auto-inferred `Box` drops invariant-only fields (`max_y`, `min_z`) while `satisfies_invariants()` references them (E0609); `Float64` params render as `i64` on the default agentic path. (Verified: `telos build` → cargo error 101.)
 - [ ] Confirm generated implementation has no `TANGENT_THRESHOLD`-style magnitude shortcut — only an exact-zero direction check gates the parallel/containment branch (per Appendix A) — pending a compiling generated implementation
 - [ ] Confirm each realization-layer `ensures` clause independently re-binds `let ideal = ...` (no shared-scope assumption across clauses) — moot until `==>`/symbolic bindings land
 
 ### 1.3 Realization layer / ε auto-derivation
 
-> **Phase 0 finding (tpt-telos v0.2.0):** toolchain inspected via
-> `docs/LANGUAGE.md` and `examples/float.telos`.  Float32/Float64 are parsed and
-> codegen'd, but the IR tracks them as *integer constraints* (QF_LRA) and the
-> docs themselves mark "IEEE 754 interval arithmetic and rounding error bounds"
-> as **future work**.  The realization-layer `ε` auto-derivation from Section 5.1
-> therefore does **not** exist in v0.2.0 — it must be filed as upstream `tpt-telos`
-> work (or implemented in-repo) before Phase 1 can close.  See below.
+> **Phase 0 finding (tpt-telos v0.2.0, source-confirmed):** Float32/Float64 are
+> parsed and codegen'd, but the IR is QF_LRA over integer/real atoms — there is
+> **no float semantics in the IR** and no IEEE-754 rounding-error derivation.
+> The verifier does have *interval arithmetic*, but only for bounding nonlinear
+> **integer** products (per-function `used_interval_bounding` flag in the tool's
+> own `telos-proof.json`); it is not a rounding-error bound over f64 operations.
+> The realization-layer `ε` auto-derivation from Section 5.1 therefore does
+> **not** exist in v0.2.0 — it must be filed as upstream `tpt-telos` work (or
+> implemented as our own layer) before Phase 1 can close.  See below.
 
 - [ ] Verify whether `tpt-telos` v0.2.0 actually implements auto-derivation of realization-layer `ε` from the ideal contract + operation graph (interval arithmetic over IEEE-754 rounding) — this is load-bearing for Section 5.1's claim and may not exist yet
-  - [ ] **Likely missing:** v0.2.0 docs/examples describe float contracts as approximate (QF_LRA integer tracking, no IEEE-754 interval arithmetic yet) → file upstream `tpt-telos` work before Phase 1 can close
+  - [ ] **Confirmed missing in v0.2.0 (source review):** IR has no float semantics (QF_LRA over integer/real atoms); interval arithmetic exists only for nonlinear *integer* products; no IEEE-754 interval arithmetic or ε derivation. File upstream `tpt-telos` work (or implement as our own layer) before Phase 1 can close
 - [ ] `ensures`: bounded numerical error vs. ideal result (`|f64 result − ideal result| <= EPSILON_T`)
 - [ ] `ensures`: no false negatives within the bounded domain (`ideal.is_some() ⟹ result.is_some()`)
 - [ ] Confirm `EPSILON_T` is published per-build in the Proof Certificate, not hand-asserted
@@ -109,10 +147,11 @@ Draft authored and passing `telos verify` (CI-safe): `crates/tpt-certus-spatial/
 ### 1.4 Proof Certificate (`tpt-certus-proof`)
 
 - [x] **Machine-readable manifest** — first draft implemented in `src/lib.rs`: `MANIFEST_VERSION` (v1), structured `SourceLocation` (file + validated 1-based line span, rejects inverted/zero spans), `RegulatoryObjective` enum (DO-178C Table A-5 requirements-verification / formal-methods, DO-330 tool-qualification, FDA design-controls) with stable serde identifiers, `composition_lemmas`, pinned `telos_version` field, and deterministic `to_json()`/`to_json_pretty()` export (field order = declaration order → byte-identical for identical content)
-- [ ] Implement per-build Proof Certificate assembly: ideal + realization contracts for every verified function reachable from the build — blocked: assembly consumes `tpt-telos build` artifacts, whose codegen is contract-lossy (Phase 1.2 finding)
+- [x] **Native `telos-proof.json` bridge** — `src/telos_manifest.rs` parses the compiler's own hash-sealed manifest (source SHA-256, per-function `verified`/`conclusions_checked`/`conclusions_passed`/`used_interval_bounding`) and `ProofCertificate::is_supported_by` cross-checks that every certificate entry maps to a natively-verified function (matching by trailing `::` segment; rejects any native manifest listing an unverified function). Empirically confirmed against real `telos build` output + `telos verify-manifest` round-trip.
+- [ ] Implement per-build Proof Certificate assembly: ideal + realization contracts for every verified function reachable from the build — partially blocked: native-outcome capture works (1.4 bullet above); realization-layer contract capture blocked on ε-derivation (Phase 1.3) and codegen
 - [x] Include composition lemmas used (n/a for Phase 1's single function, but wire the field) — `CertificateEntry::composition_lemmas` field wired and serialized
 - [ ] Cross-reference manifest entries to DO-178C Table A-5 objective rows — enum identifiers in place; full row-level mapping with the DO-330 objective mapping reviewed in Phase 2
-- [ ] Wire hard CI gate: any failed proof obligation fails the build; no partial/best-effort certificate is ever emitted — `is_complete()` hard-gate semantics defined (`!empty && all source spans valid`); CI wiring lands with `telos build` integration
+- [ ] Wire hard CI gate: any failed proof obligation fails the build; no partial/best-effort certificate is ever emitted — `is_complete()` hard-gate semantics defined (`!empty && all source spans valid`); `verify-manifest` native-integrity step added to CI for all buildable `.telos` (currently smoke contract; `ray_aabb.telos` rejoins once codegen is faithful)
 - [ ] First-draft Proof Certificate generated for the Phase 1 crate and reviewed against the DO-330 objective mapping (Section 7, Phase 1) — blocked on `telos build` (Phase 1.2 finding)
 
 ### 1.5 FM-elimination scalability benchmark (Section 5.2 / exit criterion 2)
@@ -217,6 +256,7 @@ Draft authored and passing `telos verify` (CI-safe): `crates/tpt-certus-spatial/
 - [x] Confirm the Section 1 "among a very small set" positioning claim is still tenable after the Phase 1.7 survey → **confirmed**. Closest prior art (`schildep` Lean 4 verified 3D CSG mesh intersection) verifies a 3D spatial *algorithm* over exact arithmetic; it does not publish a two-layer f64-realization certificate. Survey record appended under Phase 1.7.
 - [x] Confirm exact `tpt-formal` GitHub repository URL and branch, and that it exposes `tpt-for-model-check` / `tpt-for-vcgen` → `https://github.com/tpt-solutions/tpt-formal`, `master` branch. Both sub-crates are published at v0.1.0.
 - [x] Confirm exact crates.io package names/versions for `tpt-math` and `tpt-engineering` sub-crates → `tpt-math-geometry` 0.1.1, `tpt-math-linalg` 0.1.0, `tpt-eng-geometry` 0.1.0, `tpt-eng-mesh` 0.1.0. All on crates.io.
-- [ ] Confirm `tpt-telos`'s ε-auto-derivation is actually implemented (not just described in `tpt-telos`'s own docs/roadmap) before Phase 1 depends on it → see Phase 1.3, exit criterion for Phase 1 closure. **No.** v0.2.0 tracks floats as integer constraints and marks IEEE-754 interval arithmetic / rounding-error bounds as future work; `telos build` codegen additionally drops contract-only struct fields and demotes floats to integers (see Phase 1.2 drafting findings).
-- [ ] Upstream `tpt-telos` work required before Phase 1 ideal contract can fully close: (a) statement-level `if` with relational (`<`, `<=`, `>`, `>=`) and field-access guards; (b) `==>` implication and/or `ensures result == ...` for pure functions; (c) contract-faithful `telos build` codegen (preserve all referenced fields; correct float typing); (d) IEEE-754 interval arithmetic + auto-derived `ε`.
+- [ ] Confirm `tpt-telos`'s ε-auto-derivation is actually implemented (not just described in `tpt-telos`'s own docs/roadmap) before Phase 1 depends on it → see Phase 1.3, exit criterion for Phase 1 closure. **No.** v0.2.0 IR has no float semantics (QF_LRA over integer/real atoms); interval arithmetic exists only for nonlinear integer products (`used_interval_bounding`); no IEEE-754 ε derivation (see Phase 1.2/1.3 findings).
+- [ ] Upstream `tpt-telos` work required before Phase 1 ideal contract can fully close: (a) verified return values / return-value post-conditions (`let`/`return` currently no-ops in IR body analysis) + `==>` implication and/or `ensures result == ...`; (b) compound (`&&`/`||`) `if` guards and mutating-`match` support; (c) contract- and type-faithful `telos build`/`transpile` codegen (currently drops invariant-only struct fields → non-compiling Rust for float-carrying contracts; demotes `Float64` params to `i64`); (d) IEEE-754 interval arithmetic + auto-derived `ε`.
+- [ ] **Float codegen nuance (Step 5, empirically re-verified):** main `render_type` maps `Float64 → f64` (`codegen/src/lib.rs`), and FFI/eject paths reject floats outright (`codegen/src/ffi.rs`); but the default agentic `telos build`/`transpile` output renders `Float64` params as `i64` and drops invariant-only fields, so observed generated Rust for float contracts does not compile. Realization layer per spec §5.1 must treat the executing f64 artifact as our own, not rely on `telos build` output yet.
 - [ ] Do not claim "regulatory submission ready" before Phase 3 completes; do not claim an established financial model-risk pathway before Phase 5 completes (per spec Section 7 closing note) → ongoing constraint.

@@ -68,3 +68,32 @@ jobs:
           if [ "$count" -eq 0 ]; then
             echo "note: no .telos sources yet (Phase 1 will add them); gate is a no-op"
           fi
+
+      - name: telos build + verify-manifest (native integrity gate)
+        run: |
+          set -euo pipefail
+          # Phase 1.4: round-trip the compiler's own hash-sealed proof manifest
+          # (telos-proof.json) against its source for every contract the codegen
+          # path can actually build.
+          #
+          # Note: `crates/tpt-certus-spatial/telos/ray_aabb.telos` is currently
+          # EXCLUDED: v0.2.0 codegen drops invariant-only struct fields and
+          # demotes Float64 params (Phase 1.2 finding), so `telos build` on it
+          # emits non-compiling Rust.  That contract rejoins this gate once the
+          # codegen is contract-faithful.
+          blocks=0
+          while IFS= read -r file; do
+            case "$file" in
+              crates/tpt-certus-spatial/telos/ray_aabb.telos) continue ;; esac
+            echo "== telos build $file"
+            outdir="$(mktemp -d)"
+            telos build "$file" --out-dir "$outdir"
+            echo "== telos verify-manifest $outdir/telos-proof.json $file"
+            telos verify-manifest "$outdir/telos-proof.json" "$file"
+            rm -rf "$outdir"
+            blocks=$((blocks + 1))
+          done < <(find . -name '*.telos' -type f ! -path './target/*')
+          echo "verified manifests for $blocks buildable .telos file(s)"
+          if [ "$blocks" -eq 0 ]; then
+            echo "note: no buildable .telos sources yet; native integrity gate is a no-op"
+          fi

@@ -63,7 +63,18 @@ Every verified function in `tpt-certus` carries **two linked contracts**:
 1. **Ideal contract**, proven over QF_LRA / exact rationals — this is what Fourier-Motzkin elimination actually decides.
 2. **Realization contract**, proven over the compiled f64 semantics, stated as: *for all inputs in the declared domain, the f64 result differs from the ideal-contract result by no more than `ε`*, where `ε` is derived from IEEE-754 rounding analysis (interval arithmetic over the operation sequence in the function body), not asserted by hand.
 
-`tpt-telos` is extended to auto-derive the realization contract's `ε` from the ideal contract plus the function's operation graph, so authors write one specification and get both proofs. **This auto-derivation is itself trusted tooling, not something separately re-proven per function call** — its soundness rests on `tpt-telos`'s interval-arithmetic implementation being correct, which is exactly the property Phase 2 of Section 7 puts through independent DO-330 tool-qualification analysis. Until that phase completes, treat the ε-derivation mechanism as a documented trust assumption, not an independently-verified guarantee in its own right; the per-function ideal and realization contracts it produces are still individually checked by the FM solver.
+`tpt-certus` extends `tpt-telos` with the realization layer: the ε derivation from the ideal contract plus the function's operation graph is built by us on top of telos's round-trip pipeline (the upstream IR today is QF_LRA over integer/real atoms and provides interval bounding only for nonlinear-integer products — no IEEE-754 float semantics — so the realization layer and its ε are *our* construction, not an existing telos feature). Authors write one specification, and the pipeline produces both proofs. **This auto-derivation is itself trusted tooling, not something separately re-proven per function call** — its soundness rests on our interval-arithmetic implementation being correct, which is exactly the property Phase 2 of Section 7 puts through independent DO-330 tool-qualification analysis. Until that phase completes, treat the ε-derivation mechanism as a documented trust assumption, not an independently-verified guarantee in its own right; the per-function ideal and realization contracts it produces are still individually checked by the FM solver.
+
+> **Float typing reality check (v0.2.0, empirically re-verified):** `Float64`
+> parses and the main `render_type` maps it to `f64`, but the *agentic*
+> `telos build`/`transpile` path observed in practice renders `Float64`
+> parameters as `i64` and drops struct fields referenced only by `invariant`
+> clauses, so generated Rust for any float-carrying contract currently does not
+> compile (Phase 1.2).  `tpt-certus`'s realization layer therefore cannot rely
+> on `telos build` output as the executing f64 artifact until upstream codegen
+> is contract- and type-faithful; it is specified here as our own layer that
+> consumes verified `.telos` (ideal) contracts and our own f64 implementation
+> with derived ε.
 
 Where a function's structure makes an epsilon-fuzzy zone unavoidable (e.g., near-tangent ray-plane intersection), the fuzzy zone itself becomes an explicit, proven region in the contract rather than an undocumented gap — see Section 6, Postcondition 3.
 
