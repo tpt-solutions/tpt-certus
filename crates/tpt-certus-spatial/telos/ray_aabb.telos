@@ -1,0 +1,80 @@
+// ============================================================================
+// ray_intersects_aabb — Phase 1 draft (tpt-telos v0.2.0)
+//
+// This is the *authored* two-layer contract from spec.txt Section 6, the target
+// contract for the Phase 1 proof-of-concept.  It is written out verbatim here
+// as the design source of truth, with the machine-verifiable subset expressed
+// as tpt-telos code below.
+//
+// == Ideal layer (QF_LRA, exact rationals) ==
+//   requires: aabb.min.x <= aabb.max.x && aabb.min.y <= aabb.max.y &&
+//             aabb.min.z <= aabb.max.z
+//   requires: t_max > 0.0                                    // bounded domain
+//   requires: ray.dir.x != 0.0 || ray.dir.y != 0.0 || ray.dir.z != 0.0
+//   ensures:  result.is_some() ==>
+//               i.t_near >= 0.0 && i.t_near <= i.t_far && i.t_near <= t_max
+//   ensures:  origin inside AABB (inclusive, boundary counts) ==>
+//               result.is_some() && result.unwrap().t_near == 0.0
+//
+// == Realization layer (f64, auto-derived epsilon) ==
+//   ensures:  ideal.is_some() == result.is_some()          // no false negatives
+//   ensures:  ideal.is_some() ==>
+//               |t_near - ideal.t_near| <= EPSILON_T && |t_far - ideal.t_far| <= EPSILON_T
+//   // EPSILON_T derived by tpt-telos from IEEE-754 interval arithmetic over
+//   // the slab operation graph; published per-build in the Proof Certificate.
+//
+// == Expression status under tpt-telos v0.2.0 ==
+// The full contract above cannot yet be *machine* confirmed in v0.2.0:
+//   - `==>` implication and symbolic `let ideal = ...` bindings are not in the
+//     grammar (no `==>`, no symbolic evaluation).
+//   - Float32/Float64 are tracked as integer constraints (QF_LRA approximate);
+//     IEEE-754 interval arithmetic and rounding-error bounds are documented as
+//     future work (docs/LANGUAGE.md §10, examples/float.telos).
+//   - `if` conditions support only single `==`/`!=` comparisons between
+//     non-field operands; relational (`<`, `>=`) and field-access guards fail
+//     to parse.  The slab method's relational guards (t_max_slab >= t_min,
+//     t_near <= t_max) are therefore not expressible as control flow yet.
+//   - Verified functions are mutation-model only (`mutate state { ... }`);
+//     there is no `ensures result == ...` for pure return values, and `Option`
+//     is not representable (Result<T,E> exists but post-conditions over the
+//     Ok/Err branches are not documented/supported).
+//
+// Tracked in todo.md Phase 1.2 / 1.3 / "Open risks".  Until upstream tpt-telos
+// lands statement-level control flow with relational guards + float/epsilon
+// support, the machine-verified subset below is limited to invariant
+// maintenance and straight-line boundary equalities.  This file must pass
+// `telos verify` (CI gate) and is the canonical draft to upgrade in place.
+// ============================================================================
+
+@boundary(cpu_bound)
+module RayAabb {
+    // spec.txt Section 6 requires: aabb.min <= aabb.max on all axes.
+    // This is a machine-checked invariant on the Box type.
+    invariant Box {
+        min_x <= max_x && min_y <= max_y && min_z <= max_z
+    }
+
+    struct Hit {
+        t_near: Float64,
+        t_far: Float64,
+        flag: Int,
+    }
+
+    // Boundary-face slice of the spec contract (Appendix A closure):
+    // an origin whose x-coordinate equals the min-x face is treated as
+    // *inside* the AABB.  v0.2.0 verifies the equality gate and the straight
+    // line `mutate state` assignment; the full relational slab traversal must
+    // wait for upstream control-flow support.
+    func boundary_min_x(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
+        requires b.min_x <= b.max_x
+        requires px == b.min_x
+        requires py >= b.min_y
+        requires pz <= b.max_z
+        requires out.flag == 0
+        ensures out.flag == 1
+    {
+        mutate state {
+            out.flag += 1
+        }
+    }
+}

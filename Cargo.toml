@@ -1,0 +1,64 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/tpt-certus-math",
+    "crates/tpt-certus-geometry",
+    "crates/tpt-certus-spatial",
+    "crates/tpt-certus-state",
+    "crates/tpt-certus-render",
+    "crates/tpt-certus-proof",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.84"
+authors = ["TPT Solutions"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/tpt-solutions/tpt-certus"
+homepage = "https://github.com/tpt-solutions/tpt-certus"
+description = "Formally verified 3D spatial foundation, dual-licensed MIT OR Apache-2.0."
+
+[workspace.dependencies]
+# --- TPT ecosystem (crates.io) ---
+tpt-math-geometry = { version = "0.1.1" }
+tpt-math-linalg = { version = "0.1.0" }
+tpt-eng-geometry = { version = "0.1.0" }
+tpt-eng-mesh = { version = "0.1.0" }
+# Build-time tool: `.telos` -> verified Rust codegen. Pinned exactly so every
+# build reproduces the same proof-certificate semantics (DO-330 reproducibility).
+# Note: `tpt-telos` is a binary-only crate (the `telos` CLI, no lib target); the
+# programmatic orchestration API is `tpt-telos-sdk`, used as a library dep.
+tpt-telos-cli = { package = "tpt-telos", version = "=0.2.0" }
+tpt-telos-sdk = { version = "=0.2.0" }
+
+# --- TPT ecosystem (git; not published to crates.io) ---
+# Confirmed: exposes `tpt-for-model-check` and `tpt-for-vcgen` as workspace
+# members on the `master` branch of https://github.com/tpt-solutions/tpt-formal.
+tpt-for-model-check = { git = "https://github.com/tpt-solutions/tpt-formal", branch = "master" }
+tpt-for-vcgen = { git = "https://github.com/tpt-solutions/tpt-formal", branch = "master" }
+
+# --- Internal workspace members published as regular deps with path ---
+tpt-certus-math = { path = "crates/tpt-certus-math" }
+tpt-certus-geometry = { path = "crates/tpt-certus-geometry" }
+tpt-certus-spatial = { path = "crates/tpt-certus-spatial" }
+tpt-certus-state = { path = "crates/tpt-certus-state" }
+tpt-certus-render = { path = "crates/tpt-certus-render" }
+tpt-certus-proof = { path = "crates/tpt-certus-proof" }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+unsafe_op_in_unsafe_fn = "warn"
+
+[workspace.lints.clippy]
+all = "warn"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+strip = "symbols"
+overflow-checks = true
+
+[profile.dev]
+overflow-checks = true

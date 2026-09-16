@@ -1,0 +1,17 @@
+[package]
+name = "tpt-certus-render"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+description = "Minimal, headless WebGPU (wgpu) visualizer — a deterministic pure function of verified spatial state."
+
+[dependencies]
+# Phase 1.x: wgpu will be added when the headless visualizer is implemented.
+# For now, scaffold only with no rendering dependencies.
+
+[lints]
+workspace = true

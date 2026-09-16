@@ -1,0 +1,20 @@
+[package]
+name = "tpt-certus-spatial"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+description = "Core spatial engine: ray casting, spatial partitioning (BVH/Octree), broad/narrow-phase collision."
+
+[dependencies]
+tpt-certus-math = { workspace = true }
+tpt-certus-geometry = { workspace = true }
+
+# Phase 1: telos-generated verified functions will be built via build.rs using
+# tpt-telos as a build dependency. For now, no build.rs — scaffold only.
+
+[lints]
+workspace = true

@@ -1,0 +1,23 @@
+// Smoke contract proving the `telos verify` CI gate is wired (Phase 0).
+//
+// Phase 1 replaces this smoke module with the full `ray_intersects_aabb`
+// two-layer contract.  This module stays deliberately integer-only: v0.2.0
+// verifies QF_LRA over integer constraints; Float64 contracts are approximate
+// (see docs/LANGUAGE.md §10-§11 and the Phase 1.3 tracking item).
+@boundary(cpu_bound)
+module CertusSmoke {
+    invariant Ledger {
+        balance >= 0
+    }
+
+    // A credit never drives a balance negative and always increases it by
+    // exactly `amount`.
+    func credit(acc: Ledger, amount: PositiveInt)
+        requires acc.balance >= 0
+        ensures acc.balance == old(acc.balance) + amount
+    {
+        mutate state {
+            acc.balance += amount
+        }
+    }
+}

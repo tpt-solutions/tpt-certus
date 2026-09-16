@@ -1,0 +1,17 @@
+[package]
+name = "tpt-certus-math"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+description = "Core linear algebra, bounded floats, and verified vector/matrix operations for tpt-certus."
+
+[dependencies]
+tpt-math-geometry = { workspace = true }
+tpt-math-linalg = { workspace = true }
+
+[lints]
+workspace = true

@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+  TELOS_VERSION: 0.2.0
+
+jobs:
+  build-and-test:
+    name: build + test + lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+
+      - name: Cache cargo registry / git deps
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: cargo-${{ hashFiles('Cargo.lock') }}
+          restore-keys: cargo-
+
+      - name: cargo fmt --check
+        run: cargo fmt --all -- --check
+
+      - name: cargo build (workspace)
+        run: cargo build --workspace --all-targets
+
+      - name: cargo test (workspace)
+        run: cargo test --workspace
+
+      - name: cargo clippy (deny warnings)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+  telos-verify-gate:
+    name: telos verify (all .telos sources)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install telos CLI (pinned)
+        run: cargo install tpt-telos --version ${{ env.TELOS_VERSION }} --locked
+
+      - name: Verify every .telos source
+        run: |
+          set -euo pipefail
+          count=0
+          while IFS= read -r file; do
+            echo "== telos verify $file"
+            telos verify "$file"
+            count=$((count + 1))
+          done < <(find . -name '*.telos' -type f ! -path './target/*')
+          echo "verified $count .telos file(s)"
+          if [ "$count" -eq 0 ]; then
+            echo "note: no .telos sources yet (Phase 1 will add them); gate is a no-op"
+          fi
