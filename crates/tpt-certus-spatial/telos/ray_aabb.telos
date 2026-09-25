@@ -34,6 +34,25 @@
 //     are no-ops in the IR body analysis (no return-value verification yet).
 //   - Mutation via `mutate state { ... }`; plain `=`/`+=`/`-=` assignments also
 //     parse and verify inside if/else arms (confirmed with the binary).
+//   - `telos build`/`transpile` fails *before* codegen for this file with
+//     `internal error: no verification problem extracted for function
+//     '<name>'` for every function whose body contains an `if` (re-probed
+//     v0.2.0: straight-line `mutate`-only functions transpile fine; guarded
+//     ones abort the whole file).  This is the primary reason the codegen path
+//     is unusable for this contract — on top of the Float64 -> i64 demotion and
+//     the invariant-only struct fields being dropped.  `telos verify` (and
+//     `telos verify --json`) handles the file correctly, so the Proof
+//     Certificate for this contract is assembled from the verify report, not
+//     from `telos-proof.json`.
+//   - DNF (`&&`-free but `||`-joined) `requires` clauses parse, but the body
+//     analysis does *not* use them to prune branches: a function that requires
+//     `dx != 0 || dy != 0 || dz != 0` and returns when any component is
+//     non-zero still reports a branch with the counterexample
+//     `{dx=0, dy=0, dz=0}`.  Likewise a `!=` guard (`if dir != 0`) is lowered
+//     to a disjunction, and its negated (unreachable-under-requires) path is
+//     still explored as reachable — so the exact-zero direction gate cannot yet
+//     be machine-verified as a *branch* shape.  `<=`/`>=`/`==` single-relation
+//     guards *are* pruned correctly (that is why the slab gates verify).
 //   - Float32/Float64 parse; IR is QF_LRA over integer/real atoms — no IEEE-754
 //     interval arithmetic, no rounding-error ε bounds.  `telos build`/`transpile`
 //     output is not type-faithful for our draft (auto-inferred `Box` drops
@@ -142,6 +161,106 @@ module RayAabb {
             mutate state {
                 out.flag = 0
             }
+        }
+    }
+
+    // Explicit bounded domain (`requires: t_max > 0.0`): the no-false-negative
+    // claim is only meaningful up to t_max.  An entry distance that lies inside
+    // the bounded domain is a valid hit, so the acceptance gate is exactly
+    // `t_near <= t_max` under `t_max > 0 && t_near >= 0`.  Single-relation
+    // guard, machine-verified with the installed v0.2.0 binary.
+    func t_max_domain_accepts(t_max: Int, t_near: Int, mut out: Hit)
+        requires out.flag == 0
+        requires t_max > 0
+        requires t_near >= 0
+        requires t_near <= t_max
+        ensures out.flag == 1
+    {
+        if t_near <= t_max {
+            mutate state {
+                out.flag = 1
+            }
+        }
+    }
+
+    // Boundary faces: an origin whose coordinate equals a face is treated as
+    // *inside* the AABB (Appendix A closure).  `boundary_min_x` above is the
+    // min-x slice; the five remaining faces are spelled out here so all six
+    // faces of the boundary-case gap have a machine-verified equality gate.
+    // Each slice is a straight-line `mutate` body, so it both verifies and
+    // transpiles (see the header note on codegen).
+    func boundary_max_x(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
+        requires b.min_x <= b.max_x
+        requires px == b.max_x
+        requires py >= b.min_y
+        requires py <= b.max_y
+        requires pz >= b.min_z
+        requires pz <= b.max_z
+        requires out.flag == 0
+        ensures out.flag == 1
+    {
+        mutate state {
+            out.flag += 1
+        }
+    }
+
+    func boundary_min_y(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
+        requires b.min_y <= b.max_y
+        requires py == b.min_y
+        requires px >= b.min_x
+        requires px <= b.max_x
+        requires pz >= b.min_z
+        requires pz <= b.max_z
+        requires out.flag == 0
+        ensures out.flag == 1
+    {
+        mutate state {
+            out.flag += 1
+        }
+    }
+
+    func boundary_max_y(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
+        requires b.min_y <= b.max_y
+        requires py == b.max_y
+        requires px >= b.min_x
+        requires px <= b.max_x
+        requires pz >= b.min_z
+        requires pz <= b.max_z
+        requires out.flag == 0
+        ensures out.flag == 1
+    {
+        mutate state {
+            out.flag += 1
+        }
+    }
+
+    func boundary_min_z(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
+        requires b.min_z <= b.max_z
+        requires pz == b.min_z
+        requires px >= b.min_x
+        requires px <= b.max_x
+        requires py >= b.min_y
+        requires py <= b.max_y
+        requires out.flag == 0
+        ensures out.flag == 1
+    {
+        mutate state {
+            out.flag += 1
+        }
+    }
+
+    func boundary_max_z(b: Box, px: Float64, py: Float64, pz: Float64, mut out: Hit)
+        requires b.min_z <= b.max_z
+        requires pz == b.max_z
+        requires px >= b.min_x
+        requires px <= b.max_x
+        requires py >= b.min_y
+        requires py <= b.max_y
+        requires out.flag == 0
+        ensures out.flag == 1
+    {
+        mutate state {
+            out.flag += 1
         }
     }
 }

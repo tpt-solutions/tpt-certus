@@ -13,11 +13,18 @@ description = "Proof-certificate assembly, error-bound bookkeeping, and DO-330-f
 tpt-for-model-check = { workspace = true }
 tpt-for-vcgen = { workspace = true }
 tpt-telos-sdk = { workspace = true }
+tpt-certus-math = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 
-# Phase 1 will add: tpt-certus-math, tpt-certus-geometry, tpt-certus-spatial
-# (for aggregating certificate entries from verified functions).
+# Phase 1 will add: tpt-certus-geometry, tpt-certus-spatial (for aggregating
+# certificate entries from verified functions).  `tpt-certus-math` is already
+# needed: the realization layer reuses its core-only `sqrt`/ulp-stepping
+# primitives so the mirror and the geometry artifacts share one implementation.
+
+[dev-dependencies]
+# Mirror<->artifact equivalence cross-checks are integration tests in
+# `tpt-certus-spatial` (which dev-depends on this crate); nothing extra here yet.
 
 [lints]
 workspace = true

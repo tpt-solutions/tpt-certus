@@ -138,11 +138,14 @@ Draft authored and passing `telos verify` (CI-safe): `crates/tpt-certus-spatial/
 > **not** exist in v0.2.0 — it must be filed as upstream `tpt-telos` work (or
 > implemented as our own layer) before Phase 1 can close.  See below.
 
-- [ ] Verify whether `tpt-telos` v0.2.0 actually implements auto-derivation of realization-layer `ε` from the ideal contract + operation graph (interval arithmetic over IEEE-754 rounding) — this is load-bearing for Section 5.1's claim and may not exist yet
-  - [ ] **Confirmed missing in v0.2.0 (source review):** IR has no float semantics (QF_LRA over integer/real atoms); interval arithmetic exists only for nonlinear *integer* products; no IEEE-754 interval arithmetic or ε derivation. File upstream `tpt-telos` work (or implement as our own layer) before Phase 1 can close
-- [ ] `ensures`: bounded numerical error vs. ideal result (`|f64 result − ideal result| <= EPSILON_T`)
-- [ ] `ensures`: no false negatives within the bounded domain (`ideal.is_some() ⟹ result.is_some()`)
-- [ ] Confirm `EPSILON_T` is published per-build in the Proof Certificate, not hand-asserted
+- [x] Verify whether `tpt-telos` v0.2.0 actually implements auto-derivation of realization-layer `ε` from the ideal contract + operation graph (interval arithmetic over IEEE-754 rounding) — this is load-bearing for Section 5.1's claim and may not exist yet
+  - [x] **Confirmed missing in v0.2.0 (source review):** IR has no float semantics (QF_LRA over integer/real atoms); interval arithmetic exists only for nonlinear *integer* products; no IEEE-754 interval arithmetic or ε derivation. Filed as our own layer — see below.
+- [x] **Implemented as our own layer** (`crates/tpt-certus-proof/src/realization.rs`, `pub mod realization` wired into `lib.rs`): outward-rounded IEEE-754 interval arithmetic (`Interval` with `next_up`/`next_down` ulp-widened `add`/`sub`/`neg`/`mul`/`div`/`min`/`max`) over an operation-graph mirror of `ray_intersects_aabb`'s slab method (`slab_realization`). `InputDomain::check_bounded` rejects non-finite inputs and direction components that span zero (ill-defined slab division). Emits a `Realization` with per-quantity `epsilon_t_near`/`epsilon_t_far`, a `Decision` (`GuaranteedHit`/`GuaranteedMiss`/`Indeterminate`), and a full `op_trace` audit trail. 9 unit tests pass (interval arithmetic soundness + the sample-domain ε/decision invariants); `cargo test -p tpt-certus-proof` is 22/22 green.
+- [x] `ensures`: bounded numerical error vs. ideal result (`|f64 result − ideal result| <= EPSILON_T`) — `epsilon_t_near`/`epsilon_t_far` in `Realization` (interval width; sound by outward-rounding, not yet cross-checked against a compiling generated artifact — see Phase 1.2 codegen blocker)
+- [ ] `ensures`: no false negatives within the bounded domain (`ideal.is_some() ⟹ result.is_some()`) — `Decision::GuaranteedHit`/`GuaranteedMiss`/`Indeterminate` classification exists; not yet wired to an explicit no-false-negative assertion/test
+- [ ] Confirm `EPSILON_T` is published per-build in the Proof Certificate, not hand-asserted — `Realization` is not yet threaded into `ProofCertificate`/`CertificateEntry` (Phase 1.4)
+- [ ] Mirror↔artifact equivalence is currently asserted only in doc comments (cross-check tests referenced in `realization.rs` module docs against the 8 reference scenarios + randomized inputs) — those cross-check tests do not yet exist in `tpt-certus-spatial`; add them
+- [ ] Tool-verify (not just test-pin) mirror↔artifact equivalence — deferred to Phase 3 audit per module docs
 
 ### 1.4 Proof Certificate (`tpt-certus-proof`)
 

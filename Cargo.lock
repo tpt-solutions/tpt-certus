@@ -211,6 +211,7 @@ version = "0.1.0"
 dependencies = [
  "serde",
  "serde_json",
+ "tpt-certus-math",
  "tpt-for-model-check",
  "tpt-for-vcgen",
  "tpt-telos-sdk",
@@ -226,6 +227,7 @@ version = "0.1.0"
 dependencies = [
  "tpt-certus-geometry",
  "tpt-certus-math",
+ "tpt-certus-proof",
 ]
 
 [[package]]

@@ -16,5 +16,12 @@ tpt-certus-geometry = { workspace = true }
 # Phase 1: telos-generated verified functions will be built via build.rs using
 # tpt-telos as a build dependency. For now, no build.rs — scaffold only.
 
+[dev-dependencies]
+# Phase 1.3: the mirror<->artifact equivalence cross-checks
+# (`tests/mirror_artifact.rs`) consume the realization-layer operation-graph
+# mirror from `tpt-certus-proof`, so the executing artifact and the derived `ε`
+# envelope are tested against each other in the crate that ships the artifact.
+tpt-certus-proof = { workspace = true }
+
 [lints]
 workspace = true
