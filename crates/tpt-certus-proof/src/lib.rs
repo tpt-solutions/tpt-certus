@@ -65,7 +65,7 @@
 
 extern crate alloc;
 
-use alloc::string::String;
+use alloc::string::{String, ToString};
 use alloc::vec;
 use alloc::vec::Vec;
 use serde::{Deserialize, Serialize};
@@ -909,6 +909,14 @@ mod tests {
 
     /// A compact but field-complete `telos verify --json` fixture with two
     /// verified functions, one of which is reported per branch.
+    /// The sample artifact entry, narrowed to the native functions the trimmed
+    /// [`report_fixture`] actually contains.
+    fn artifact_entry_over(native: &[&str]) -> CertificateEntry {
+        let mut entry = sample_entry();
+        entry.native_support = native.iter().map(|n| (*n).into()).collect();
+        entry
+    }
+
     fn report_fixture() -> verify_report::VerifyReport {
         verify_report::VerifyReport::parse(
             r#"{
@@ -1006,7 +1014,7 @@ mod tests {
             "abc123".into(),
             "2026-09-20T00:00:00Z".into(),
             "=0.2.0".into(),
-            vec![sample_entry()],
+            vec![artifact_entry_over(&["boundary_min_x", "slab_hit_decided"])],
             false,
         )
         .expect("assembles");
@@ -1026,8 +1034,8 @@ mod tests {
         assert_eq!(native_entry.objective_rows.len(), 2);
         assert!(native_entry.epsilon.is_none());
 
-        let json = cert.to_json().expect("serializes");
-        assert_eq!(json, cert.to_json().expect("serializes"));
+        let json = cert.to_json();
+        assert_eq!(json, cert.to_json());
         assert!(json.contains("do-178c-table-a5-source-code-accurate-and-consistent"));
         assert!(json.contains("do-333-formal-methods-supplement-to-table-a5"));
     }

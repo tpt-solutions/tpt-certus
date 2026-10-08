@@ -1,0 +1,21 @@
+[package]
+name = "tpt-certus-verify"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+homepage.workspace = true
+repository.workspace = true
+description = "Internal verifier for tpt-certus: exact rational arithmetic, polynomial constraints, and a small certificate checker. No external telos or SMT dependency."
+
+[dependencies]
+
+[dev-dependencies]
+# Parity tests compare the IR against the shipped artifact.  No cycle: the
+# spatial crate does not depend on this one.
+tpt-certus-spatial = { workspace = true }
+tpt-certus-geometry = { workspace = true }
+
+[lints]
+workspace = true

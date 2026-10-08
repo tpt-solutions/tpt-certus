@@ -226,6 +226,8 @@ impl VerifyCheck {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use alloc::string::ToString;
+    use alloc::vec;
 
     /// Trimmed but field-complete excerpt of a real
     /// `telos verify --json crates/tpt-certus-spatial/telos/ray_aabb.telos`
@@ -266,7 +268,7 @@ mod tests {
                 "slab_hit_decided"
             ]
         );
-        assert_eq!(report.total_checks(), 4);
+        assert_eq!(report.total_checks(), 5);
         assert_eq!(report.approximation_checks(), 0);
         assert!(report.failing_function_names().is_empty());
     }

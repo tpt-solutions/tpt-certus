@@ -7,6 +7,7 @@ members = [
     "crates/tpt-certus-state",
     "crates/tpt-certus-render",
     "crates/tpt-certus-proof",
+    "crates/tpt-certus-verify",
 ]
 
 [workspace.package]
@@ -45,6 +46,7 @@ tpt-certus-spatial = { path = "crates/tpt-certus-spatial" }
 tpt-certus-state = { path = "crates/tpt-certus-state" }
 tpt-certus-render = { path = "crates/tpt-certus-render" }
 tpt-certus-proof = { path = "crates/tpt-certus-proof" }
+tpt-certus-verify = { path = "crates/tpt-certus-verify" }
 
 # --- General-purpose deps (no_std-compatible) ---
 # JSON for the machine-readable Proof Certificate manifest and DO-330 audit
