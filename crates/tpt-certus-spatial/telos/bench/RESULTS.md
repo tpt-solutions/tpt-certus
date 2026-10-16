@@ -96,3 +96,30 @@ three-function module took 269 s at the same depth. The two measurements do not
 agree, so cost is not simply additive across functions. Possible causes include
 how `telos` batches functions within a module, or timing noise from a single
 run each. This has not been investigated further.
+
+## Reproducibility of the combined depth-12 module
+
+Re-run twice on the same machine to check the earlier 269 s figure:
+
+| run | wall time (s) | result |
+|----:|--------------:|--------|
+| 1   | 431           | pass   |
+| 2   | 357           | pass   |
+| earlier | 269       | pass   |
+
+The 269 s run was low. The combined module sits at about 360–430 s, which is
+close to the 516 s single-function sum. Most of the earlier gap was run-to-run
+variance, not a real difference between one module and three.
+
+## z3 solver comparison — not measured
+
+- z3 4.x was installed via scoop (`z3` 5.3.1 package, `libz3.lib` present).
+- telos 0.2.0 was built with `--features z3` into a separate install root.
+  The build failed: `tpt-telos-verifier` 0.2.0's z3 backend does not compile
+  against the locked `z3` crate 0.12.1 (missing operator and `_eq` impls on
+  `z3::ast::Int`). This is an upstream incompatibility. The shipped
+  `telos verify --solver z3` flag in the default build is silently accepted and
+  is not a z3 measurement.
+- Patching the registry crate to get it to build was not done, because that
+  would measure a modified solver, not the shipped one. The comparison needs
+  an upstream fix or a compatible `z3` crate version.
