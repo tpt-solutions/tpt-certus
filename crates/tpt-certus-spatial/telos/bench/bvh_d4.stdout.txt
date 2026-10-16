@@ -1,0 +1,67 @@
+Verifying C:\Programming\tpt-certus\crates\tpt-certus-spatial\telos\bench\bvh_d4.telos
+
+  function insert[branch 0]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 1]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 2]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 3]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 4]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 5]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 6]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 7]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 8]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 9]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 10]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 11]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 12]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 13]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 14]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 15]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+RESULT: all constraints satisfied.

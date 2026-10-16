@@ -1,0 +1,5 @@
+"depth","branches","seconds","peak_mib","result","telos"
+"4","16","0.386","6","all constraints satisfied.","telos 0.2.0"
+"8","256","0.495","8.9","all constraints satisfied.","telos 0.2.0"
+"12","4096","18.426","71.7","all constraints satisfied.","telos 0.2.0"
+"16","65536","838.876","1307.9","all constraints satisfied.","telos 0.2.0"

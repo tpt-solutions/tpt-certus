@@ -1,0 +1,1027 @@
+Verifying C:\Programming\tpt-certus\crates\tpt-certus-spatial\telos\bench\bvh_d8.telos
+
+  function insert[branch 0]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 1]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 2]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 3]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 4]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 5]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 6]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 7]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 8]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 9]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 10]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 11]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 12]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 13]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 14]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 15]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 16]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 17]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 18]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 19]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 20]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 21]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 22]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 23]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 24]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 25]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 26]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 27]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 28]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 29]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 30]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 31]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 32]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 33]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 34]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 35]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 36]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 37]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 38]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 39]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 40]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 41]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 42]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 43]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 44]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 45]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 46]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 47]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 48]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 49]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 50]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 51]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 52]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 53]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 54]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 55]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 56]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 57]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 58]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 59]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 60]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 61]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 62]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 63]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 64]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 65]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 66]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 67]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 68]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 69]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 70]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 71]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 72]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 73]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 74]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 75]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 76]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 77]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 78]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 79]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 80]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 81]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 82]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 83]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 84]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 85]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 86]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 87]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 88]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 89]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 90]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 91]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 92]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 93]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 94]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 95]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 96]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 97]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 98]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 99]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 100]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 101]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 102]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 103]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 104]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 105]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 106]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 107]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 108]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 109]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 110]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 111]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 112]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 113]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 114]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 115]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 116]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 117]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 118]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 119]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 120]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 121]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 122]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 123]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 124]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 125]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 126]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 127]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 128]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 129]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 130]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 131]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 132]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 133]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 134]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 135]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 136]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 137]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 138]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 139]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 140]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 141]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 142]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 143]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 144]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 145]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 146]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 147]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 148]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 149]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 150]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 151]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 152]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 153]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 154]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 155]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 156]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 157]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 158]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 159]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 160]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 161]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 162]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 163]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 164]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 165]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 166]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 167]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 168]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 169]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 170]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 171]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 172]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 173]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 174]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 175]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 176]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 177]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 178]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 179]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 180]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 181]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 182]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 183]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 184]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 185]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 186]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 187]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 188]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 189]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 190]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 191]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 192]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 193]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 194]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 195]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 196]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 197]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 198]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 199]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 200]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 201]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 202]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 203]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 204]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 205]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 206]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 207]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 208]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 209]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 210]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 211]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 212]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 213]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 214]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 215]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 216]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 217]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 218]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 219]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 220]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 221]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 222]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 223]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 224]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 225]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 226]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 227]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 228]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 229]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 230]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 231]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 232]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 233]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 234]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 235]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 236]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 237]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 238]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 239]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 240]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 241]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 242]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 243]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 244]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 245]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 246]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 247]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 248]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 249]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 250]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 251]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 252]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 253]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 254]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function insert[branch 255]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+RESULT: all constraints satisfied.

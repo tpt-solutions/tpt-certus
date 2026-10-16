@@ -1,0 +1,33 @@
+module BvhBench4 {
+    struct Node {
+        lo: Int,
+        hi: Int,
+        flag: Int,
+    }
+
+    func insert(key: Int, mut out: Node)
+        requires out.lo <= out.hi
+        ensures out.lo <= out.hi
+    {
+        if key >= out.lo + 1 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key >= out.lo + 2 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key >= out.lo + 3 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key >= out.lo + 4 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+    }
+}
