@@ -162,7 +162,7 @@ Draft authored and passing `telos verify` (CI-safe): `crates/tpt-certus-spatial/
 ### 1.5 FM-elimination scalability benchmark (Section 5.2 / exit criterion 2)
 
 - [x] Build synthetic BVH construction/mutation functions (`insert`, `rebalance`, `split_node`) in `.telos` — generated per depth by `crates/tpt-certus-spatial/telos/bench/run_fm_bench.ps1`
-- [~] Benchmark FM elimination proof time + memory at depths 4, 8, 12, and 16 — **not complete at depth 16**. Three-function module (`insert`+`rebalance`+`split_node`): depth 4 0.14 s, depth 8 1.9 s, depth 12 269 s (137 MiB), depth 16 **timed out at 5400 s**. Insert-only depth 16 finished in 839 s (commit `be1ee1c`). Verifier cost for the new guard shapes is far above the insert-only extrapolation. See `crates/tpt-certus-spatial/telos/bench/RESULTS.md`
+- [~] Benchmark FM elimination proof time + memory at depths 4, 8, 12, and 16 — **not complete at depth 16**. Three-function module (`insert`+`rebalance`+`split_node`): depth 4 0.14 s, depth 8 1.9 s, depth 12 269 s (137 MiB), depth 16 **timed out at 5400 s**. Insert-only depth 16 finished in 839 s (commit `be1ee1c`). Per-function at depth 12: insert 13 s, split_node 28 s, rebalance 475 s — `rebalance` dominates, but single-function sums (~516 s) do not match the combined 269 s, so attribution is not yet clean. See `crates/tpt-certus-spatial/telos/bench/RESULTS.md`
 - [ ] Record results as the evidence gate for committing to "self-contained solver, no external SMT dependency" as a permanent architectural principle — data recorded in `RESULTS.md`; the decision itself is left to the project owner (the `--solver z3` comparison was not measured)
 
 ### 1.6 ε-derivation generalization check (exit criterion 4)

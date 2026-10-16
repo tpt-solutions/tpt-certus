@@ -78,3 +78,21 @@ scales to BVH-sized contracts at depth 16 with this verifier. Whether it support
 committing to "self-contained solver, no external SMT dependency" as a permanent
 principle is a judgment for the project owner. The z3 comparison, and per-function
 timing, would be the next measurements.
+
+## Per-function timing at depth 12 (single-function modules)
+
+Each function was verified in its own module (one run each, run sequentially,
+same machine as above):
+
+| function     | wall time (s) | result |
+|--------------|--------------:|--------|
+| insert       | 13            | pass   |
+| split_node   | 28            | pass   |
+| rebalance    | 475           | pass   |
+
+`rebalance` dominates. Its guard `out.hi >= out.lo + i` is the expensive shape.
+The three single-function times sum to about 516 s, but the combined
+three-function module took 269 s at the same depth. The two measurements do not
+agree, so cost is not simply additive across functions. Possible causes include
+how `telos` batches functions within a module, or timing noise from a single
+run each. This has not been investigated further.
