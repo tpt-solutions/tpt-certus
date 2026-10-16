@@ -1024,4 +1024,2052 @@ Verifying C:\Programming\tpt-certus\crates\tpt-certus-spatial\telos\bench\bvh_d8
     [PASS] ensures ensures: out.lo <= out.hi
     => PASS
 
+  function rebalance[branch 0]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 1]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 2]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 3]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 4]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 5]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 6]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 7]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 8]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 9]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 10]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 11]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 12]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 13]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 14]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 15]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 16]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 17]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 18]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 19]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 20]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 21]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 22]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 23]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 24]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 25]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 26]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 27]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 28]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 29]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 30]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 31]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 32]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 33]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 34]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 35]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 36]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 37]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 38]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 39]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 40]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 41]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 42]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 43]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 44]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 45]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 46]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 47]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 48]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 49]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 50]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 51]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 52]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 53]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 54]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 55]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 56]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 57]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 58]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 59]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 60]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 61]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 62]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 63]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 64]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 65]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 66]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 67]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 68]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 69]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 70]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 71]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 72]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 73]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 74]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 75]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 76]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 77]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 78]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 79]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 80]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 81]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 82]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 83]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 84]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 85]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 86]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 87]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 88]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 89]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 90]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 91]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 92]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 93]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 94]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 95]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 96]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 97]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 98]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 99]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 100]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 101]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 102]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 103]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 104]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 105]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 106]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 107]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 108]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 109]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 110]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 111]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 112]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 113]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 114]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 115]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 116]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 117]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 118]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 119]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 120]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 121]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 122]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 123]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 124]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 125]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 126]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 127]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 128]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 129]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 130]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 131]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 132]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 133]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 134]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 135]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 136]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 137]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 138]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 139]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 140]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 141]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 142]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 143]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 144]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 145]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 146]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 147]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 148]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 149]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 150]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 151]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 152]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 153]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 154]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 155]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 156]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 157]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 158]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 159]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 160]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 161]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 162]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 163]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 164]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 165]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 166]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 167]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 168]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 169]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 170]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 171]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 172]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 173]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 174]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 175]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 176]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 177]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 178]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 179]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 180]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 181]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 182]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 183]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 184]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 185]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 186]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 187]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 188]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 189]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 190]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 191]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 192]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 193]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 194]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 195]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 196]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 197]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 198]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 199]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 200]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 201]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 202]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 203]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 204]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 205]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 206]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 207]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 208]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 209]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 210]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 211]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 212]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 213]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 214]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 215]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 216]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 217]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 218]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 219]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 220]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 221]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 222]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 223]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 224]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 225]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 226]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 227]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 228]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 229]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 230]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 231]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 232]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 233]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 234]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 235]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 236]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 237]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 238]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 239]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 240]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 241]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 242]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 243]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 244]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 245]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 246]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 247]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 248]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 249]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 250]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 251]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 252]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 253]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 254]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 255]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 0]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 1]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 2]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 3]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 4]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 5]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 6]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 7]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 8]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 9]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 10]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 11]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 12]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 13]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 14]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 15]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 16]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 17]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 18]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 19]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 20]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 21]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 22]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 23]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 24]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 25]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 26]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 27]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 28]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 29]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 30]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 31]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 32]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 33]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 34]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 35]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 36]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 37]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 38]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 39]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 40]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 41]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 42]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 43]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 44]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 45]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 46]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 47]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 48]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 49]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 50]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 51]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 52]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 53]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 54]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 55]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 56]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 57]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 58]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 59]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 60]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 61]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 62]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 63]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 64]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 65]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 66]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 67]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 68]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 69]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 70]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 71]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 72]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 73]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 74]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 75]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 76]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 77]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 78]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 79]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 80]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 81]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 82]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 83]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 84]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 85]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 86]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 87]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 88]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 89]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 90]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 91]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 92]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 93]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 94]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 95]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 96]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 97]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 98]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 99]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 100]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 101]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 102]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 103]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 104]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 105]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 106]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 107]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 108]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 109]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 110]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 111]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 112]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 113]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 114]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 115]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 116]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 117]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 118]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 119]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 120]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 121]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 122]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 123]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 124]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 125]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 126]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 127]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 128]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 129]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 130]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 131]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 132]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 133]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 134]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 135]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 136]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 137]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 138]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 139]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 140]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 141]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 142]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 143]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 144]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 145]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 146]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 147]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 148]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 149]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 150]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 151]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 152]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 153]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 154]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 155]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 156]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 157]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 158]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 159]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 160]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 161]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 162]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 163]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 164]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 165]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 166]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 167]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 168]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 169]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 170]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 171]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 172]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 173]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 174]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 175]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 176]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 177]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 178]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 179]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 180]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 181]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 182]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 183]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 184]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 185]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 186]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 187]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 188]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 189]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 190]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 191]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 192]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 193]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 194]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 195]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 196]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 197]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 198]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 199]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 200]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 201]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 202]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 203]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 204]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 205]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 206]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 207]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 208]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 209]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 210]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 211]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 212]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 213]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 214]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 215]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 216]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 217]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 218]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 219]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 220]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 221]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 222]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 223]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 224]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 225]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 226]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 227]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 228]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 229]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 230]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 231]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 232]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 233]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 234]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 235]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 236]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 237]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 238]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 239]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 240]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 241]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 242]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 243]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 244]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 245]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 246]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 247]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 248]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 249]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 250]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 251]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 252]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 253]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 254]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 255]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
 RESULT: all constraints satisfied.

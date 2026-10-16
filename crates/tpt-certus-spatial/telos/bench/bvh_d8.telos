@@ -50,4 +50,96 @@ module BvhBench8 {
             mutate state { out.hi = out.hi + 1 }
         }
     }
+
+    func rebalance(mut out: Node)
+        requires out.lo <= out.hi
+        ensures out.lo <= out.hi
+    {
+        if out.hi >= out.lo + 1 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 2 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 3 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 4 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 5 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 6 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 7 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if out.hi >= out.lo + 8 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+    }
+
+    func split_node(key: Int, mut out: Node)
+        requires out.lo <= out.hi
+        ensures out.lo <= out.hi
+    {
+        if key <= out.hi - 1 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 2 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 3 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 4 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 5 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 6 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 7 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+        if key <= out.hi - 8 {
+            mutate state { out.lo = out.lo + 1; out.hi = out.hi + 1 }
+        } else {
+            mutate state { out.hi = out.hi + 1 }
+        }
+    }
 }

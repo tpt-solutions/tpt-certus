@@ -1,58 +1,80 @@
 # FM-elimination scalability benchmark — results (Phase 1.5)
 
 Evidence for spec Section 5.2 / Phase 1 exit criterion 2: proof time and memory
-of `telos verify` against a synthetic BVH-shaped function at nesting depths
+of `telos verify` against synthetic BVH-shaped functions at nesting depths
 4, 8, 12 and 16.
 
 Reproduce:
 
 ```
-powershell -NoProfile -ExecutionPolicy Bypass -File crates/tpt-certus-spatial/telos/bench/run_fm_bench.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File crates/tpt-certus-spatial/telos/bench/run_fm_bench.ps1 -TimeoutSec 5400
 ```
 
 ## Setup
 
 - Verifier: `telos 0.2.0` (the pinned CI version), default solver (FM).
-- Workload: `insert(key: Int, mut out: Node)` with `d` sequential `if key >= out.lo + i`
-  guards, each arm mutating `out`. The function has `2^d` verification branches.
-  Both arms preserve the `requires`/`ensures` invariant `out.lo <= out.hi`.
-  This is a synthetic stand-in for the BVH insert path, not a faithful BVH.
-- Machine: Windows 11 development workstation (single run per depth).
+- Workload: a module with three functions named in the spec — `insert`,
+  `rebalance`, `split_node` — each with `d` sequential `if` guards (2^d branches
+  per function). Each arm mutates `out` and keeps the invariant `out.lo <= out.hi`.
+  Guards differ per function (`key >= out.lo + i`, `out.hi >= out.lo + i`,
+  `key <= out.hi - i`). This is a synthetic stand-in for BVH mutation code, not a
+  faithful BVH.
+- Machine: Windows 11 development workstation, one run per depth.
 - Memory: peak working set of the `telos` process, sampled every 50 ms. This can
   under-report very short peaks.
+- Timeout: 5400 s per depth.
 
-## Results
+## Results — three functions (`insert` + `rebalance` + `split_node`)
+
+| depth | branches / function | wall time (s) | peak memory (MiB) | result |
+|------:|--------------------:|--------------:|------------------:|--------|
+| 4     | 16                  | 0.140         | 6.2               | all constraints satisfied |
+| 8     | 256                 | 1.930         | 17.9              | all constraints satisfied |
+| 12    | 4096                | 269.4         | 137.4             | all constraints satisfied |
+| 16    | 65536               | > 5400        | > 2040 (at timeout) | **TIMEOUT** — not completed |
+
+Raw data: `fm_bench_results.csv`. The depth-16 run was killed by the harness at
+5400 s; no verdict was produced.
+
+## Results — `insert` alone (earlier run, superseded)
+
+Recorded for comparison. This run used a single function per module and is
+preserved in git history at commit `be1ee1c`.
 
 | depth | branches | wall time (s) | peak memory (MiB) | result |
 |------:|---------:|--------------:|------------------:|--------|
-| 4     | 16       | 0.386         | 6.0               | all constraints satisfied |
-| 8     | 256      | 0.495         | 8.9               | all constraints satisfied |
-| 12    | 4096     | 18.426        | 71.7              | all constraints satisfied |
-| 16    | 65536    | 838.876       | 1307.9            | all constraints satisfied |
-
-Raw data: `fm_bench_results.csv`. Depth 16 took about 14 minutes.
+| 4     | 16       | 0.386         | 6.0               | pass |
+| 8     | 256      | 0.495         | 8.9               | pass |
+| 12    | 4096     | 18.426        | 71.7              | pass |
+| 16    | 65536    | 838.876       | 1307.9            | pass |
 
 ## Reading
 
-- Every depth verified; no solver-limit failures were observed on this workload.
-- Branch count grows 16× from depth 12 to 16, but wall time grows about 45× and
-  peak memory about 18×. Cost is super-linear in branch count at these depths.
-- Depths 4–8 are dominated by process startup, so the small-depth timings say
-  little about scaling.
-- A single depth-16 run takes 14 minutes. A build-time gate on this
-  workload would need a time budget or caching; the numbers alone do not
-  settle that.
+- Adding `rebalance` and `split_node` changed the cost substantially. At depth 12
+  the three-function module takes about 15× the time of `insert` alone, not the
+  ~3× that three independent functions would suggest. The guard shapes in the
+  new functions appear to be much more expensive for the FM solver. We have not
+  isolated which one.
+- At depth 16 the verifier did not finish within 90 minutes on this machine.
+  Single-function depth 16 completed in 14 minutes, so the three-function
+  workload is not simply 3× that.
+- The verifier is not at a usable scale for depth 16 on these shapes. This is the
+  opposite of what the depth-16 insert-only result suggested.
+- Depths 4–8 are dominated by process startup, so small-depth timings say little
+  about scaling.
 
 ## Not yet covered
 
-- The spec names `insert`, `rebalance` and `split_node`. Only `insert` is built.
-  `rebalance` and `split_node` still need `.telos` sources.
+- Per-function timing: the module is verified as one unit, so cost cannot be
+  attributed to `insert`, `rebalance` or `split_node` separately.
 - The workload is synthetic. Results on real BVH contracts may differ.
 - One run per depth, no variance estimate.
+- The `--solver z3` path was not measured.
 
 ## Decision
 
-This is evidence, not a verdict. Whether it supports committing to "self-contained
-solver, no external SMT dependency" as a permanent principle is a judgment for
-the project owner. The `--solver z3` path in `telos verify` was not measured here
-and would be a useful comparison.
+This is evidence, not a verdict. It does not support a claim that FM elimination
+scales to BVH-sized contracts at depth 16 with this verifier. Whether it supports
+committing to "self-contained solver, no external SMT dependency" as a permanent
+principle is a judgment for the project owner. The z3 comparison, and per-function
+timing, would be the next measurements.

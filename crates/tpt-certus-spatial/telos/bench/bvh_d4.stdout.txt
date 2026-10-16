@@ -64,4 +64,132 @@ Verifying C:\Programming\tpt-certus\crates\tpt-certus-spatial\telos\bench\bvh_d4
     [PASS] ensures ensures: out.lo <= out.hi
     => PASS
 
+  function rebalance[branch 0]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 1]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 2]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 3]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 4]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 5]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 6]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 7]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 8]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 9]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 10]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 11]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 12]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 13]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 14]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function rebalance[branch 15]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 0]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 1]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 2]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 3]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 4]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 5]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 6]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 7]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 8]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 9]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 10]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 11]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 12]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 13]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 14]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
+  function split_node[branch 15]:
+    [PASS] ensures ensures: out.lo <= out.hi
+    => PASS
+
 RESULT: all constraints satisfied.
