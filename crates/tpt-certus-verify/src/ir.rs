@@ -284,3 +284,63 @@ fn cmp_exact(op: Cmp, a: Rational, b: Rational) -> bool {
 fn rational_to_f64(r: Rational) -> f64 {
     r.num() as f64 / r.den() as f64
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn exact_and_f64_agree_on_a_simple_expression() {
+        // (x − 1) / 2 + max(x, 0)
+        let mut g = Graph::new();
+        let x = g.input("x");
+        let one = g.constant("1", Rational::ONE);
+        let two = g.constant("2", Rational::from_int(2));
+        let zero = g.constant("0", Rational::ZERO);
+        let a = g.sub("x-1", x, one);
+        let b = g.div("/2", a, two);
+        let m = g.max("max(x,0)", x, zero);
+        let out = g.add("out", b, m);
+
+        let exact = g.eval_exact(&[Rational::from_int(3)]).unwrap();
+        let approx = g.eval_f64(&[3.0]).unwrap();
+        assert_eq!(exact[out], Rational::from_int(4));
+        assert_eq!(approx[out], 4.0);
+    }
+
+    #[test]
+    fn exact_evaluation_fails_closed_on_division_by_zero() {
+        let mut g = Graph::new();
+        let x = g.input("x");
+        let zero = g.constant("0", Rational::ZERO);
+        g.div("x/0", x, zero);
+        assert!(g.eval_exact(&[Rational::ONE]).is_none());
+    }
+
+    #[test]
+    fn exact_evaluation_fails_closed_on_infinity() {
+        let mut g = Graph::new();
+        g.infinity("+inf", true);
+        assert!(g.eval_exact(&[]).is_none());
+        assert!(g.eval_f64(&[]).unwrap()[0].is_infinite());
+    }
+
+    #[test]
+    fn select_chooses_a_branch_without_hiding_untaken_failures() {
+        // if x < 0 { 0 } else { 1 / x }: at x = 0 the else branch divides by zero,
+        // which the exact evaluator reports rather than silently skipping.
+        let mut g = Graph::new();
+        let x = g.input("x");
+        let zero = g.constant("0", Rational::ZERO);
+        let one = g.constant("1", Rational::ONE);
+        let inv = g.div("1/x", one, x);
+        g.select(
+            "guard",
+            Cond { op: Cmp::Lt, a: x, b: zero },
+            zero,
+            inv,
+        );
+        assert_eq!(g.eval_exact(&[Rational::from_int(-2)]).unwrap()[4], Rational::ZERO);
+        assert!(g.eval_exact(&[Rational::ZERO]).is_none());
+    }
+}

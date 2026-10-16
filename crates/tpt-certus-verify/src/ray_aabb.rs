@@ -29,6 +29,10 @@ pub struct RayAabbGraph {
     pub t_near: NodeId,
     /// Unclipped exit distance, `t_max_slab`.  Meaningful only on a hit.
     pub t_far: NodeId,
+    /// Per-axis entry parameters `(min − origin)/dir` for `x, y, z`.
+    pub t1: [NodeId; 3],
+    /// Per-axis exit parameters `(max − origin)/dir` for `x, y, z`.
+    pub t2: [NodeId; 3],
 }
 
 /// Build the graph.
@@ -50,6 +54,8 @@ pub fn ray_aabb_graph() -> RayAabbGraph {
     let mut t_min = neg_inf;
     let mut t_max_slab = pos_inf;
     let mut miss = zero;
+    let mut t1_nodes = [zero; 3];
+    let mut t2_nodes = [zero; 3];
 
     for a in 0..3 {
         let ax = AXES[a];
@@ -69,6 +75,8 @@ pub fn ray_aabb_graph() -> RayAabbGraph {
         let num2 = g.sub(&format!("max.{ax} - origin.{ax}"), hi[a], o[a]);
         let t1 = g.div(&format!("t1.{ax}"), num1, d[a]);
         let t2 = g.div(&format!("t2.{ax}"), num2, d[a]);
+        t1_nodes[a] = t1;
+        t2_nodes[a] = t2;
         let near_a = g.min(&format!("near.{ax}"), t1, t2);
         let far_a = g.max(&format!("far.{ax}"), t1, t2);
 
@@ -149,5 +157,7 @@ pub fn ray_aabb_graph() -> RayAabbGraph {
         hit,
         t_near,
         t_far: t_max_slab,
+        t1: t1_nodes,
+        t2: t2_nodes,
     }
 }

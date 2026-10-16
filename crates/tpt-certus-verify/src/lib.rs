@@ -32,4 +32,5 @@ pub mod ray_aabb;
 pub mod rational;
 pub mod refute;
 pub mod search;
+pub mod vc;
 
